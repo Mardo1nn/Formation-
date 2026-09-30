@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA INSTITUTE — Formation Professionnelle</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/playfair-display@latest/latin-700-normal.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        navy: { 50:'#e8ecf4', 100:'#c5cfe3', 200:'#9eafd0', 300:'#7790bd', 400:'#5979af', 500:'#3b62a1', 600:'#2d4f8f', 700:'#1d3a73', 800:'#0f2657', 900:'#0A1F44', 950:'#060f24' },
+        gold: { 50:'#fdf9ec', 100:'#f9efc9', 200:'#f4e098', 300:'#eecf67', 400:'#e9c03f', 500:'#D4AF37', 600:'#b8942c', 700:'#8f7122', 800:'#664f19', 900:'#3d2f0f' },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['"Playfair Display"', 'serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; color: #1a1a1a; background: #fafafa; }
+  .font-display { font-family: 'Playfair Display', serif; }
+  .hero-bg {
+    background: linear-gradient(135deg, #0A1F44 0%, #1d3a73 50%, #0A1F44 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212,175,55,0.1) 0%, transparent 50%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .gradient-gold { background: linear-gradient(135deg, #D4AF37 0%, #e9c03f 50%, #D4AF37 100%); }
+  .gradient-navy { background: linear-gradient(135deg, #0A1F44 0%, #1d3a73 100%); }
+  .text-gradient-gold { background: linear-gradient(135deg, #D4AF37, #e9c03f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .btn-primary {
+    background: linear-gradient(135deg, #D4AF37 0%, #e9c03f 100%);
+    color: #0A1F44;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,175,55,0.5); }
+  .btn-outline {
+    border: 2px solid #D4AF37;
+    color: #D4AF37;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  .btn-outline:hover { background: #D4AF37; color: #0A1F44; }
+  .card-hover { transition: all 0.4s ease; }
+  .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(10,31,68,0.15); }
+  .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .nav-link { position: relative; }
+  .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: #D4AF37; transition: width 0.3s; }
+  .nav-link:hover::after { width: 100%; }
+  .formation-card { background: white; border-radius: 16px; overflow: hidden; }
+  .formation-img {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+    position: relative;
+  }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(10,31,68,0.7); z-index: 100; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
+  .modal.active { display: flex; }
+  .badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .badge-pending { background: #fef3c7; color: #92400e; }
+  .badge-confirmed { background: #d1fae5; color: #065f46; }
+  .badge-partial { background: #dbeafe; color: #1e40af; }
+  .badge-complete { background: #10b981; color: white; }
+  .badge-cancelled { background: #fee2e2; color: #991b1b; }
+  .stat-card { background: white; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  input, select, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: white;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #D4AF37; box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }
+  label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #1d3a73; font-size: 0.9rem; }
+  .whatsapp-float { position: fixed; bottom: 24px; right: 24px; z-index: 50; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 8px 25px rgba(37,211,102,0.4); transition: all 0.3s; }
+  .whatsapp-float:hover { transform: scale(1.1); }
+  @keyframes pulse-gold { 0%,100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.4); } 50% { box-shadow: 0 0 0 15px rgba(212,175,55,0); } }
+  .pulse-gold { animation: pulse-gold 2s infinite; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .tab-btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; transition: all 0.2s; cursor: pointer; }
+  .tab-btn.active { background: #0A1F44; color: #D4AF37; }
+  .tab-btn:not(.active) { background: #f3f4f6; color: #6b7280; }
+  .tab-btn:not(.active):hover { background: #e5e7eb; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #0A1F44; color: #D4AF37; padding: 12px; text-align: left; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 12px; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem; }
+  tr:hover td { background: #fafafa; }
+  .page { display: none; }
+  .page.active { display: block; }
+  @media print {
+    .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-sm no-print" id="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <a href="#" onclick="showPage('home')" class="flex items-center gap-3">
+        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-xl gradient-navy flex items-center justify-center">
+          <i class="fas fa-graduation-cap text-gold-500 text-lg lg:text-xl"></i>
+        </div>
+        <div>
+          <div class="font-display font-bold text-navy-900 text-lg lg:text-xl leading-none">NOVA</div>
+          <div class="text-xs text-navy-600 tracking-widest">INSTITUTE</div>
+        </div>
+      </a>
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="#" onclick="showPage('home')" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Accueil</a>
+        <a href="#objectif" onclick="showPage('home');setTimeout(()=>document.getElementById('objectif').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Objectif</a>
+        <a href="#mission" onclick="showPage('home');setTimeout(()=>document.getElementById('mission').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Mission</a>
+        <a href="#formations" onclick="showPage('home');setTimeout(()=>document.getElementById('formations').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Formations</a>
+        <a href="#professeurs" onclick="showPage('home');setTimeout(()=>document.getElementById('professeurs').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Professeurs</a>
+        <a href="#horaires" onclick="showPage('home');setTimeout(()=>document.getElementById('horaires').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Horaires</a>
+        <a href="#" onclick="showPage('inscription')" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Inscription</a>
+        <a href="#contact" onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),100)" class="nav-link px-3 py-2 text-sm font-semibold text-navy-800 hover:text-gold-500">Contact</a>
+      </div>
+      <div class="hidden lg:flex items-center gap-3">
+        <button onclick="openModal('studentLoginModal')" class="btn-outline px-5 py-2.5 rounded-lg text-sm">
+          <i class="fas fa-user-graduate mr-2"></i>Espace Étudiant
+        </button>
+        <button onclick="showPage('inscription')" class="btn-primary px-5 py-2.5 rounded-lg text-sm">
+          <i class="fas fa-pen-to-square mr-2"></i>S'INSCRIRE
+        </button>
+      </div>
+      <button onclick="toggleMobileMenu()" class="lg:hidden text-navy-900 text-2xl">
+        <i class="fas fa-bars" id="menuIcon"></i>
+      </button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-gray-100">
+    <div class="px-4 py-4 space-y-1">
+      <a href="#" onclick="showPage('home');closeMobileMenu()" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-home mr-3 text-gold-500"></i>Accueil</a>
+      <a href="#objectif" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('objectif').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-bullseye mr-3 text-gold-500"></i>Objectif</a>
+      <a href="#mission" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('mission').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-rocket mr-3 text-gold-500"></i>Mission & Vision</a>
+      <a href="#formations" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('formations').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-book mr-3 text-gold-500"></i>Formations</a>
+      <a href="#professeurs" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('professeurs').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-chalkboard-user mr-3 text-gold-500"></i>Professeurs</a>
+      <a href="#horaires" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('horaires').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-clock mr-3 text-gold-500"></i>Horaires</a>
+      <a href="#" onclick="showPage('inscription');closeMobileMenu()" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-pen mr-3 text-gold-500"></i>Inscription</a>
+      <a href="#contact" onclick="showPage('home');closeMobileMenu();setTimeout(()=>document.getElementById('contact').scrollIntoView(),100)" class="block px-4 py-3 rounded-lg text-navy-800 font-semibold hover:bg-navy-50"><i class="fas fa-phone mr-3 text-gold-500"></i>Contact</a>
+      <div class="pt-3 space-y-2">
+        <button onclick="openModal('studentLoginModal');closeMobileMenu()" class="w-full btn-outline py-3 rounded-lg text-sm"><i class="fas fa-user-graduate mr-2"></i>Espace Étudiant</button>
+        <button onclick="showPage('inscription');closeMobileMenu()" class="w-full btn-primary py-3 rounded-lg text-sm"><i class="fas fa-pen-to-square mr-2"></i>S'INSCRIRE</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== PAGE ACCUEIL ==================== -->
+<div id="page-home" class="page active">
+
+<!-- HERO -->
+<section class="hero-bg min-h-screen flex items-center pt-20 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="text-white">
+        <div class="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-500/40 rounded-full px-4 py-2 mb-6">
+          <span class="w-2 h-2 bg-gold-500 rounded-full animate-pulse"></span>
+          <span class="text-gold-400 text-sm font-semibold tracking-wide">INSCRIPTIONS OUVERTES 2026</span>
+        </div>
+        <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          NOVA<br><span class="text-gradient-gold">INSTITUTE</span>
+        </h1>
+        <p class="text-xl sm:text-2xl text-gold-300 font-display italic mb-6">
+          « Apprenez un métier. Développez vos compétences.<br>Construisez votre avenir. »
+        </p>
+        <p class="text-gray-300 text-lg mb-8 leading-relaxed max-w-xl">
+          NOVA INSTITUTE vous accompagne dans l'apprentissage de métiers pratiques et professionnels à travers des formations accessibles, concrètes et orientées vers l'autonomie.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button onclick="document.getElementById('formations').scrollIntoView({behavior:'smooth'})" class="btn-primary px-8 py-4 rounded-xl text-base">
+            <i class="fas fa-book-open mr-2"></i>Découvrir nos formations
+          </button>
+          <button onclick="showPage('inscription')" class="btn-outline px-8 py-4 rounded-xl text-base">
+            <i class="fas fa-pen-to-square mr-2"></i>S'inscrire maintenant
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
+          <div><div class="text-3xl font-bold text-gold-400">6+</div><div class="text-sm text-gray-400">Formations</div></div>
+          <div><div class="text-3xl font-bold text-gold-400">100%</div><div class="text-sm text-gray-400">Pratique</div></div>
+          <div><div class="text-3xl font-bold text-gold-400">Avenir</div><div class="text-sm text-gray-400">Garanti</div></div>
+        </div>
+      </div>
+      <div class="hidden lg:block">
+        <div class="relative">
+          <div class="absolute -top-8 -left-8 w-72 h-72 bg-gold-500/10 rounded-full blur-3xl"></div>
+          <div class="absolute -bottom-8 -right-8 w-72 h-72 bg-gold-500/10 rounded-full blur-3xl"></div>
+          <div class="relative bg-gradient-to-br from-navy-700 to-navy-900 rounded-3xl p-8 border border-gold-500/20 shadow-2xl">
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-flask text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Chimie</div>
+              </div>
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-seedling text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Bouquets</div>
+              </div>
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-print text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Impression</div>
+              </div>
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-scissors text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Perruques</div>
+              </div>
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-wand-magic-sparkles text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Décoration</div>
+              </div>
+              <div class="bg-white/10 backdrop-blur rounded-2xl p-6 text-center border border-white/10">
+                <i class="fas fa-shoe-prints text-gold-400 text-4xl mb-3"></i>
+                <div class="text-white font-semibold text-sm">Sandalerie</div>
+              </div>
+            </div>
+            <div class="mt-6 bg-gold-500/10 border border-gold-500/30 rounded-2xl p-4 text-center">
+              <div class="text-gold-400 font-bold">Rejoignez +100 étudiants</div>
+              <div class="text-white/70 text-sm">qui construisent leur avenir</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">POURQUOI NOUS CHOISIR</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Une formation d'excellence</h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Des formations pratiques conçues pour vous donner les compétences dont vous avez besoin pour réussir.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div class="card-hover bg-gradient-to-br from-navy-900 to-navy-700 rounded-2xl p-6 text-white">
+        <div class="w-14 h-14 gradient-gold rounded-xl flex items-center justify-center mb-4"><i class="fas fa-hands-praying text-navy-900 text-2xl"></i></div>
+        <h3 class="font-bold text-lg mb-2">Formations pratiques</h3>
+        <p class="text-gray-300 text-sm">Apprentissage concret et applicable immédiatement.</p>
+      </div>
+      <div class="card-hover bg-white border-2 border-gray-100 rounded-2xl p-6">
+        <div class="w-14 h-14 gradient-navy rounded-xl flex items-center justify-center mb-4"><i class="fas fa-user-tie text-gold-500 text-2xl"></i></div>
+        <h3 class="font-bold text-lg mb-2 text-navy-900">Formateurs expérimentés</h3>
+        <p class="text-gray-600 text-sm">Des professionnels passionnés qui vous guident.</p>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-navy-900 to-navy-700 rounded-2xl p-6 text-white">
+        <div class="w-14 h-14 gradient-gold rounded-xl flex items-center justify-center mb-4"><i class="fas fa-universal-access text-navy-900 text-2xl"></i></div>
+        <h3 class="font-bold text-lg mb-2">Apprentissage accessible</h3>
+        <p class="text-gray-300 text-sm">Ouvert à tous, jeunes et adultes.</p>
+      </div>
+      <div class="card-hover bg-white border-2 border-gray-100 rounded-2xl p-6">
+        <div class="w-14 h-14 gradient-navy rounded-xl flex items-center justify-center mb-4"><i class="fas fa-briefcase text-gold-500 text-2xl"></i></div>
+        <h3 class="font-bold text-lg mb-2 text-navy-900">Orienté emploi</h3>
+        <p class="text-gray-600 text-sm">Vers l'emploi et l'entrepreneuriat.</p>
+      </div>
+      <div class="card-hover bg-gradient-to-br from-navy-900 to-navy-700 rounded-2xl p-6 text-white">
+        <div class="w-14 h-14 gradient-gold rounded-xl flex items-center justify-center mb-4"><i class="fas fa-hand-holding-heart text-navy-900 text-2xl"></i></div>
+        <h3 class="font-bold text-lg mb-2">Accompagnement</h3>
+        <p class="text-gray-300 text-sm">Suivi personnalisé des étudiants.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIF -->
+<section id="objectif" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">NOTRE OBJECTIF</div>
+        <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-6">Former les professionnels de demain</h2>
+        <p class="text-gray-700 text-lg mb-4 leading-relaxed">
+          L'objectif de NOVA INSTITUTE est de permettre à chaque participant d'acquérir des compétences pratiques et directement utiles dans la vie professionnelle et entrepreneuriale.
+        </p>
+        <p class="text-gray-600 leading-relaxed">
+          Nous souhaitons offrir des formations accessibles permettant aux jeunes et aux adultes de développer un savoir-faire concret, de créer leurs propres activités et de mieux préparer leur avenir professionnel.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="card-hover bg-white rounded-2xl p-6 border-l-4 border-gold-500 shadow-sm">
+          <i class="fas fa-tools text-gold-500 text-2xl mb-3"></i>
+          <h4 class="font-bold text-navy-900 mb-2">Compétences pratiques</h4>
+          <p class="text-gray-600 text-sm">Développer des savoir-faire concrets et applicables.</p>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 border-l-4 border-navy-700 shadow-sm">
+          <i class="fas fa-user-astronaut text-navy-700 text-2xl mb-3"></i>
+          <h4 class="font-bold text-navy-900 mb-2">Autonomie professionnelle</h4>
+          <p class="text-gray-600 text-sm">Favoriser l'indépendance et la confiance.</p>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 border-l-4 border-gold-500 shadow-sm">
+          <i class="fas fa-lightbulb text-gold-500 text-2xl mb-3"></i>
+          <h4 class="font-bold text-navy-900 mb-2">Entrepreneuriat</h4>
+          <p class="text-gray-600 text-sm">Encourager la création d'activités.</p>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 border-l-4 border-navy-700 shadow-sm">
+          <i class="fas fa-award text-navy-700 text-2xl mb-3"></i>
+          <h4 class="font-bold text-navy-900 mb-2">Professionnels compétents</h4>
+          <p class="text-gray-600 text-sm">Former une relève de qualité.</p>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 border-l-4 border-gold-500 shadow-sm sm:col-span-2">
+          <i class="fas fa-chart-line text-gold-500 text-2xl mb-3"></i>
+          <h4 class="font-bold text-navy-900 mb-2">Opportunités économiques</h4>
+          <p class="text-gray-600 text-sm">Créer des perspectives de revenus et de développement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION & VISION -->
+<section id="mission" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">MISSION & VISION</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Ce qui nous anime</h2>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="relative group">
+        <div class="absolute inset-0 gradient-gold rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition"></div>
+        <div class="relative bg-gradient-to-br from-navy-900 to-navy-700 rounded-3xl p-10 text-white h-full">
+          <div class="w-16 h-16 gradient-gold rounded-2xl flex items-center justify-center mb-6">
+            <i class="fas fa-bullseye text-navy-900 text-3xl"></i>
+          </div>
+          <h3 class="font-display text-3xl font-bold mb-4 text-gold-400">Notre Mission</h3>
+          <p class="text-gray-200 leading-relaxed text-lg">
+            Notre mission est de proposer des formations professionnelles pratiques, accessibles et adaptées aux besoins du marché, afin d'aider nos étudiants à acquérir des compétences concrètes et valorisables.
+          </p>
+        </div>
+      </div>
+      <div class="relative group">
+        <div class="absolute inset-0 gradient-gold rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition"></div>
+        <div class="relative bg-white border-2 border-navy-100 rounded-3xl p-10 h-full">
+          <div class="w-16 h-16 gradient-navy rounded-2xl flex items-center justify-center mb-6">
+            <i class="fas fa-eye text-gold-500 text-3xl"></i>
+          </div>
+          <h3 class="font-display text-3xl font-bold mb-4 text-navy-900">Notre Vision</h3>
+          <p class="text-gray-700 leading-relaxed text-lg">
+            Notre vision est de devenir une institution de référence dans la formation professionnelle en Haïti, en contribuant au développement des compétences, de l'entrepreneuriat et de l'autonomie économique.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMATIONS -->
+<section id="formations" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">NOS FORMATIONS</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Des métiers concrets pour un avenir solide</h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Choisissez la formation qui correspond à vos ambitions et commencez à construire votre avenir dès aujourd'hui.</p>
+    </div>
+    <div id="formationsGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </div>
+</section>
+
+<!-- SEMINAIRES -->
+<section id="seminaires" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">SÉMINAIRES & ATELIERS</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Événements à venir</h2>
+    </div>
+    <div id="seminairesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- PROFESSEURS -->
+<section id="professeurs" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">NOS PROFESSEURS</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Une équipe dévouée</h2>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto">Des formateurs passionnés et expérimentés pour vous accompagner dans votre apprentissage.</p>
+    </div>
+    <div id="professeursGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+  </div>
+</section>
+
+<!-- HORAIRES -->
+<section id="horaires" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">HORAIRES</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Planning des formations</h2>
+    </div>
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+      <div class="overflow-x-auto">
+        <table id="horairesTable">
+          <thead>
+            <tr>
+              <th>Formation</th>
+              <th>Jour</th>
+              <th>Heure</th>
+              <th>Durée</th>
+              <th>Formateur</th>
+              <th>Salle</th>
+            </tr>
+          </thead>
+          <tbody id="horairesBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">CONTACT</div>
+      <h2 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Contactez-nous</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-10">
+      <div>
+        <div class="bg-gradient-to-br from-navy-900 to-navy-700 rounded-3xl p-10 text-white mb-6">
+          <h3 class="font-display text-2xl font-bold mb-6 text-gold-400">NOVA INSTITUTE</h3>
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-gold-500/20 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fas fa-location-dot text-gold-400 text-xl"></i></div>
+              <div><div class="text-gold-400 font-semibold text-sm mb-1">ADRESSE</div><div class="text-gray-200">Cité Militaire / École Foi d'Abraham</div></div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-gold-500/20 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fas fa-phone text-gold-400 text-xl"></i></div>
+              <div><div class="text-gold-400 font-semibold text-sm mb-1">TÉLÉPHONES</div><div class="text-gray-200">58046408 / 44699777</div></div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-gold-500/20 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fab fa-whatsapp text-gold-400 text-xl"></i></div>
+              <div><div class="text-gold-400 font-semibold text-sm mb-1">WHATSAPP</div><div class="text-gray-200">33552907</div></div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-gold-500/20 rounded-xl flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-gold-400 text-xl"></i></div>
+              <div><div class="text-gold-400 font-semibold text-sm mb-1">EMAIL</div><div class="text-gray-200">institutenova61@gmail.com</div></div>
+            </div>
+          </div>
+        </div>
+        <a href="https://wa.me/50933552907" target="_blank" class="block w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl text-center transition shadow-lg">
+          <i class="fab fa-whatsapp text-2xl mr-2"></i>CONTACTER NOVA INSTITUTE SUR WHATSAPP
+        </a>
+      </div>
+      <div class="bg-white rounded-3xl p-10 shadow-lg border border-gray-100">
+        <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">Envoyez-nous un message</h3>
+        <form onsubmit="sendContactMessage(event)" class="space-y-4">
+          <div><label>Nom complet</label><input type="text" id="contactName" required></div>
+          <div><label>Email</label><input type="email" id="contactEmail" required></div>
+          <div><label>Téléphone</label><input type="tel" id="contactPhone" required></div>
+          <div><label>Message</label><textarea id="contactMessage" rows="4" required></textarea></div>
+          <button type="submit" class="w-full btn-primary py-4 rounded-xl"><i class="fas fa-paper-plane mr-2"></i>Envoyer le message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ==================== PAGE INSCRIPTION ==================== -->
+<div id="page-inscription" class="page">
+  <div class="pt-24 pb-20 min-h-screen bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <div class="inline-block bg-gold-500/10 text-gold-600 px-4 py-2 rounded-full text-sm font-bold tracking-wide mb-4">INSCRIPTION EN LIGNE</div>
+        <h1 class="font-display text-4xl lg:text-5xl font-bold text-navy-900 mb-4">Rejoignez NOVA INSTITUTE</h1>
+        <p class="text-gray-600 text-lg">Remplissez le formulaire ci-dessous pour vous inscrire à la formation de votre choix.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl shadow-xl p-8 lg:p-12 border border-gray-100">
+        <!-- Paiement Info -->
+        <div class="bg-gradient-to-r from-navy-900 to-navy-700 rounded-2xl p-6 mb-8 text-white">
+          <h3 class="font-bold text-gold-400 mb-3"><i class="fas fa-credit-card mr-2"></i>MOYENS DE PAIEMENT</h3>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+              <div class="font-bold text-gold-400 mb-1">NatCash</div>
+              <div class="text-sm text-gray-300">Envoyez votre paiement via NatCash</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+              <div class="font-bold text-gold-400 mb-1">MonCash</div>
+              <div class="text-sm text-gray-300">Envoyez votre paiement via MonCash</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="inscriptionForm" onsubmit="submitInscription(event)" class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-5">
+            <div><label>Nom complet *</label><input type="text" id="f_nom" required></div>
+            <div><label>Date de naissance *</label><input type="date" id="f_dob" required></div>
+            <div><label>Sexe *</label>
+              <select id="f_sexe" required><option value="">-- Choisir --</option><option>Masculin</option><option>Féminin</option></select>
+            </div>
+            <div><label>Téléphone *</label><input type="tel" id="f_tel" required></div>
+            <div><label>WhatsApp</label><input type="tel" id="f_whatsapp"></div>
+            <div><label>Email</label><input type="email" id="f_email"></div>
+            <div class="md:col-span-2"><label>Adresse *</label><input type="text" id="f_adresse" required></div>
+            <div><label>Formation choisie *</label>
+              <select id="f_formation" required onchange="updateFrais()"><option value="">-- Choisir --</option></select>
+            </div>
+            <div><label>Type de formation *</label>
+              <select id="f_type" required onchange="updateFrais()"><option value="complete">Formation complète</option><option value="cours">Un seul cours (Chimie uniquement)</option></select>
+            </div>
+            <div><label>Date d'inscription *</label><input type="date" id="f_date" required></div>
+            <div><label>Moyen de paiement *</label>
+              <select id="f_moyen" required><option value="">-- Choisir --</option><option>NatCash</option><option>MonCash</option></select>
+            </div>
+            <div><label>Montant payé (Gdes) *</label><input type="number" id="f_montant" min="0" required></div>
+            <div><label>Référence de paiement *</label><input type="text" id="f_reference" required placeholder="Numéro de transaction"></div>
+            <div class="md:col-span-2"><label>Commentaires</label><textarea id="f_comment" rows="3"></textarea></div>
+          </div>
+
+          <!-- Résumé frais -->
+          <div id="resumeFrais" class="hidden bg-gray-50 rounded-2xl p-6 border-2 border-gold-500/30">
+            <h4 class="font-bold text-navy-900 mb-3"><i class="fas fa-calculator text-gold-500 mr-2"></i>Résumé des frais</h4>
+            <div class="grid sm:grid-cols-3 gap-4 text-sm">
+              <div class="bg-white rounded-xl p-4"><div class="text-gray-500">Frais inscription</div><div class="font-bold text-navy-900 text-lg" id="r_inscription">0 Gdes</div></div>
+              <div class="bg-white rounded-xl p-4"><div class="text-gray-500">Frais participation</div><div class="font-bold text-navy-900 text-lg" id="r_participation">0 Gdes</div></div>
+              <div class="bg-white rounded-xl p-4"><div class="text-gray-500">Total à payer</div><div class="font-bold text-gold-600 text-lg" id="r_total">0 Gdes</div></div>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full btn-primary py-4 rounded-xl text-lg">
+            <i class="fas fa-paper-plane mr-2"></i>ENVOYER MON INSCRIPTION
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE ESPACE ÉTUDIANT ==================== -->
+<div id="page-student" class="page">
+  <div class="pt-24 pb-20 min-h-screen bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="studentDashboard"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PAGE ADMIN ==================== -->
+<div id="page-admin" class="page">
+  <div class="pt-20 min-h-screen bg-gray-100">
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="hidden lg:block w-64 bg-navy-900 min-h-screen fixed left-0 top-20 text-white">
+        <div class="p-6">
+          <div class="text-gold-400 text-xs font-bold tracking-widest mb-1">ADMINISTRATION</div>
+          <div class="text-white font-display font-bold text-xl">NOVA INSTITUTE</div>
+        </div>
+        <nav class="px-3 space-y-1">
+          <button onclick="showAdminTab('dashboard')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-chart-line w-5"></i>Tableau de bord</button>
+          <button onclick="showAdminTab('students')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-user-graduate w-5"></i>Étudiants</button>
+          <button onclick="showAdminTab('formations')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-book w-5"></i>Formations</button>
+          <button onclick="showAdminTab('teachers')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-chalkboard-user w-5"></i>Professeurs</button>
+          <button onclick="showAdminTab('schedule')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-clock w-5"></i>Horaires</button>
+          <button onclick="showAdminTab('payments')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-money-bill-wave w-5"></i>Paiements</button>
+          <button onclick="showAdminTab('seminars')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-calendar-days w-5"></i>Séminaires</button>
+          <button onclick="showAdminTab('stats')" class="admin-tab w-full text-left px-4 py-3 rounded-lg hover:bg-white/10 flex items-center gap-3 font-semibold"><i class="fas fa-chart-pie w-5"></i>Statistiques</button>
+          <button onclick="logoutAdmin()" class="w-full text-left px-4 py-3 rounded-lg hover:bg-red-500/20 text-red-300 flex items-center gap-3 font-semibold mt-6"><i class="fas fa-right-from-bracket w-5"></i>Déconnexion</button>
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <main class="flex-1 lg:ml-64 p-4 lg:p-8">
+        <div class="lg:hidden mb-4 flex items-center justify-between bg-white rounded-xl p-4 shadow">
+          <div class="font-bold text-navy-900">Administration</div>
+          <button onclick="logoutAdmin()" class="text-red-500"><i class="fas fa-right-from-bracket"></i></button>
+        </div>
+        <div class="lg:hidden mb-4 overflow-x-auto scrollbar-hide">
+          <div class="flex gap-2 min-w-max">
+            <button onclick="showAdminTab('dashboard')" class="admin-tab-m px-4 py-2 rounded-lg bg-navy-900 text-gold-400 text-sm font-semibold">Dashboard</button>
+            <button onclick="showAdminTab('students')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Étudiants</button>
+            <button onclick="showAdminTab('formations')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Formations</button>
+            <button onclick="showAdminTab('teachers')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Professeurs</button>
+            <button onclick="showAdminTab('schedule')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Horaires</button>
+            <button onclick="showAdminTab('payments')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Paiements</button>
+            <button onclick="showAdminTab('seminars')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Séminaires</button>
+            <button onclick="showAdminTab('stats')" class="admin-tab-m px-4 py-2 rounded-lg bg-white text-gray-700 text-sm font-semibold">Stats</button>
+          </div>
+        </div>
+
+        <div id="adminContent"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODALS ==================== -->
+
+<!-- Student Login Modal -->
+<div id="studentLoginModal" class="modal">
+  <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 gradient-navy rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-user-graduate text-gold-400 text-2xl"></i></div>
+      <h3 class="font-display text-2xl font-bold text-navy-900">Espace Étudiant</h3>
+      <p class="text-gray-500 text-sm mt-2">Connectez-vous avec votre code étudiant</p>
+    </div>
+    <form onsubmit="studentLogin(event)" class="space-y-4">
+      <div><label>Code étudiant</label><input type="text" id="sl_code" placeholder="NOVA-2026-XXXX" required></div>
+      <div><label>Mot de passe (téléphone)</label><input type="password" id="sl_pass" placeholder="Votre numéro de téléphone" required></div>
+      <button type="submit" class="w-full btn-primary py-3 rounded-xl">Se connecter</button>
+      <button type="button" onclick="closeModal('studentLoginModal')" class="w-full py-3 rounded-xl text-gray-500 hover:bg-gray-100">Annuler</button>
+    </form>
+    <div class="text-center mt-4 text-sm text-gray-500">
+      Pas encore de code ? <a href="#" onclick="closeModal('studentLoginModal');showPage('inscription')" class="text-gold-600 font-semibold">Inscrivez-vous</a>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Login Modal -->
+<div id="adminLoginModal" class="modal">
+  <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 gradient-navy rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-shield-halved text-gold-400 text-2xl"></i></div>
+      <h3 class="font-display text-2xl font-bold text-navy-900">Administration</h3>
+      <p class="text-gray-500 text-sm mt-2">Accès réservé</p>
+    </div>
+    <form onsubmit="adminLogin(event)" class="space-y-4">
+      <div><label>Nom d'utilisateur</label><input type="text" id="al_user" required></div>
+      <div><label>Mot de passe</label><input type="password" id="al_pass" required></div>
+      <button type="submit" class="w-full btn-primary py-3 rounded-xl">Se connecter</button>
+      <button type="button" onclick="closeModal('adminLoginModal')" class="w-full py-3 rounded-xl text-gray-500 hover:bg-gray-100">Annuler</button>
+    </form>
+    <div class="text-center mt-4 text-xs text-gray-400">Accès: admin / nova2026</div>
+  </div>
+</div>
+
+<!-- Formation Detail Modal -->
+<div id="formationModal" class="modal">
+  <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div id="formationModalContent"></div>
+  </div>
+</div>
+
+<!-- Inscription Success Modal -->
+<div id="successModal" class="modal">
+  <div class="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div id="successContent"></div>
+  </div>
+</div>
+
+<!-- Generic Form Modal -->
+<div id="formModal" class="modal">
+  <div class="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div id="formModalContent"></div>
+  </div>
+</div>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/50933552907" target="_blank" class="whatsapp-float no-print pulse-gold"><i class="fab fa-whatsapp"></i></a>
+
+<!-- FOOTER -->
+<footer class="bg-navy-900 text-white pt-16 pb-8 no-print">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-xl gradient-gold flex items-center justify-center"><i class="fas fa-graduation-cap text-navy-900 text-xl"></i></div>
+          <div><div class="font-display font-bold text-xl">NOVA</div><div class="text-xs text-gold-400 tracking-widest">INSTITUTE</div></div>
+        </div>
+        <p class="text-gray-400 text-sm italic">« Apprenez un métier. Développez vos compétences. Construisez votre avenir. »</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-gold-400 mb-4">Navigation</h4>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li><a href="#" onclick="showPage('home')" class="hover:text-gold-400">Accueil</a></li>
+          <li><a href="#objectif" class="hover:text-gold-400">Objectif</a></li>
+          <li><a href="#mission" class="hover:text-gold-400">Mission & Vision</a></li>
+          <li><a href="#formations" class="hover:text-gold-400">Formations</a></li>
+          <li><a href="#professeurs" class="hover:text-gold-400">Professeurs</a></li>
+          <li><a href="#horaires" class="hover:text-gold-400">Horaires</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-gold-400 mb-4">Accès rapides</h4>
+        <ul class="space-y-2 text-sm text-gray-300">
+          <li><a href="#" onclick="showPage('inscription')" class="hover:text-gold-400">Inscription</a></li>
+          <li><a href="#" onclick="openModal('studentLoginModal')" class="hover:text-gold-400">Espace étudiant</a></li>
+          <li><a href="#contact" class="hover:text-gold-400">Contact</a></li>
+          <li><a href="#" onclick="openModal('adminLoginModal')" class="hover:text-gold-400">Administration</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-gold-400 mb-4">Contact</h4>
+        <ul class="space-y-3 text-sm text-gray-300">
+          <li><i class="fas fa-location-dot text-gold-400 mr-2"></i>Cité Militaire / École Foi d'Abraham</li>
+          <li><i class="fas fa-phone text-gold-400 mr-2"></i>58046408 / 44699777</li>
+          <li><i class="fab fa-whatsapp text-gold-400 mr-2"></i>WhatsApp : 33552907</li>
+          <li><i class="fas fa-envelope text-gold-400 mr-2"></i>institutenova61@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
+      © 2026 NOVA INSTITUTE — Tous droits réservés.
+    </div>
+  </div>
+</footer>
+
+<script>
+// ==================== DATA ====================
+const DEFAULT_FORMATIONS = [
+  { id:'f1', nom:'Chimie Industrielle', icon:'fa-flask', color:'from-blue-600 to-blue-800', duree:'2 jours', inscription:1000, participation:2500, cours:1000, avantage:'', description:'Maîtrisez les techniques de fabrication de produits chimiques du quotidien : savons, parfums, liquides et plus encore.', contenu:['Savon à lessive','Parfum','Liquides','Mistoline','Option : un seul cours pour 1 000 Gdes'], hasOption:true },
+  { id:'f2', nom:'Confection de Bouquets', icon:'fa-seedling', color:'from-pink-500 to-rose-700', duree:'2 jours', inscription:1000, participation:3000, cours:null, avantage:'', description:'Apprenez l\'art de la confection de bouquets élégants avec des fleurs éternelles et des techniques créatives.', contenu:['Fleurs éternelles','Fleurs en argent','Emballage de bouteilles','Cake money','Bouquets personnalisés'] },
+  { id:'f3', nom:'Impression Moderne', icon:'fa-print', color:'from-purple-600 to-indigo-800', duree:'2 jours', inscription:500, participation:4000, cours:null, avantage:'', description:'Découvrez les techniques modernes d\'impression et de personnalisation sur différents supports.', contenu:['Tableau PVC','Tableau lumineux','Bidons personnalisés','Techniques d\'impression moderne','Personnalisation de produits'] },
+  { id:'f4', nom:'Confection de Perruques', icon:'fa-scissors', color:'from-amber-600 to-orange-800', duree:'4 week-ends', inscription:1000, participation:7000, cours:null, avantage:'Aiguilles gratuites', description:'Devenez expert en confection de perruques avec des techniques professionnelles de A à Z.', contenu:['Techniques de confection','Assemblage','Personnalisation','Finition professionnelle','Techniques pratiques'] },
+  { id:'f5', nom:'Décoration Événementielle', icon:'fa-wand-magic-sparkles', color:'from-emerald-600 to-teal-800', duree:'2 mois', inscription:1000, participation:9500, cours:null, avantage:'Maillot inclus', description:'Maîtrisez l\'art de la décoration pour tous types d\'événements et créez des ambiances inoubliables. Horaires : 10h à 15h.', contenu:['Décoration événementielle','Organisation d\'espaces','Décoration pour différentes occasions','Création d\'ambiances','Techniques professionnelles'] },
+  { id:'f6', nom:'Sandalerie', icon:'fa-shoe-prints', color:'from-stone-600 to-stone-800', duree:'2 mois', inscription:1000, participation:9000, cours:null, avantage:'Maillot inclus', description:'Apprenez à fabriquer des sandales de qualité avec des techniques professionnelles. Horaires : 10h à 15h.', contenu:['Fabrication de sandales','Techniques de confection','Assemblage','Finitions','Création de modèles personnalisés'] }
+];
+
+const DEFAULT_TEACHERS = [
+  { id:'t1', nom:'Prof. Jean Baptiste', specialty:'Chimie Industrielle', bio:'Expert en chimie appliquée avec plus de 10 ans d\'expérience dans la formation professionnelle.', experience:'10 ans', icon:'fa-flask', color:'from-blue-600 to-blue-800' },
+  { id:'t2', nom:'Prof. Marie Claudine', specialty:'Confection de Bouquets', bio:'Artiste florale passionnée, elle forme des étudiants à l\'art délicat de la confection de bouquets.', experience:'8 ans', icon:'fa-seedling', color:'from-pink-500 to-rose-700' },
+  { id:'t3', nom:'Prof. Richardson Pierre', specialty:'Impression Moderne', bio:'Spécialiste en impression numérique et personnalisation de produits, formateur certifié.', experience:'7 ans', icon:'fa-print', color:'from-purple-600 to-indigo-800' },
+  { id:'t4', nom:'Prof. Guerline Joseph', specialty:'Confection de Perruques', bio:'Experte en confection de perruques, elle transmet son savoir-faire avec passion et rigueur.', experience:'12 ans', icon:'fa-scissors', color:'from-amber-600 to-orange-800' }
+];
+
+const DEFAULT_SCHEDULE = [
+  { formation:'Chimie Industrielle', jour:'Samedi - Dimanche', heure:'9h - 16h', duree:'2 jours', formateur:'Prof. Jean Baptiste', salle:'Salle A' },
+  { formation:'Confection de Bouquets', jour:'Samedi - Dimanche', heure:'9h - 16h', duree:'2 jours', formateur:'Prof. Marie Claudine', salle:'Salle B' },
+  { formation:'Impression Moderne', jour:'Samedi - Dimanche', heure:'9h - 16h', duree:'2 jours', formateur:'Prof. Richardson Pierre', salle:'Salle C' },
+  { formation:'Confection de Perruques', jour:'Samedi des 4 week-ends', heure:'9h - 16h', duree:'4 week-ends', formateur:'Prof. Guerline Joseph', salle:'Salle D' },
+  { formation:'Décoration Événementielle', jour:'Lundi - Vendredi', heure:'10h - 15h', duree:'2 mois', formateur:'À confirmer', salle:'Salle E' },
+  { formation:'Sandalerie', jour:'Lundi - Vendredi', heure:'10h - 15h', duree:'2 mois', formateur:'À confirmer', salle:'Salle F' }
+];
+
+const DEFAULT_SEMINARS = [
+  { id:'s1', title:'Atelier Découverte Chimie', date:'2026-11-15', time:'10h00', location:'NOVA INSTITUTE', description:'Séance de découverte gratuite des bases de la chimie industrielle.', price:0, places:20 },
+  { id:'s2', title:'Séminaire Entrepreneuriat', date:'2026-11-22', time:'14h00', location:'NOVA INSTITUTE', description:'Comment transformer vos compétences en business rentable.', price:500, places:30 }
+];
+
+// Storage helpers
+const DB = {
+  get: (k, def) => { try { return JSON.parse(localStorage.getItem('nova_'+k)) ?? def; } catch { return def; } },
+  set: (k, v) => localStorage.setItem('nova_'+k, JSON.stringify(v))
+};
+
+// Initialize data
+if (!DB.get('formations')) DB.set('formations', DEFAULT_FORMATIONS);
+if (!DB.get('teachers')) DB.set('teachers', DEFAULT_TEACHERS);
+if (!DB.get('schedule')) DB.set('schedule', DEFAULT_SCHEDULE);
+if (!DB.get('seminars')) DB.set('seminars', DEFAULT_SEMINARS);
+if (!DB.get('students')) DB.set('students', []);
+if (!DB.get('payments')) DB.set('payments', []);
+if (!DB.get('counter')) DB.set('counter', 0);
+if (!DB.get('receiptCounter')) DB.set('receiptCounter', 0);
+
+let currentUser = null;
+let isAdmin = false;
+
+// ==================== NAVIGATION ====================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  closeMobileMenu();
+  if (page === 'student' && currentUser) renderStudentDashboard();
+  if (page === 'admin' && isAdmin) showAdminTab('dashboard');
+}
+
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const icon = document.getElementById('menuIcon');
+  menu.classList.toggle('hidden');
+  icon.className = menu.classList.contains('hidden') ? 'fas fa-bars' : 'fas fa-xmark';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('hidden');
+  document.getElementById('menuIcon').className = 'fas fa-bars';
+}
+
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// Close modal on backdrop click
+document.querySelectorAll('.modal').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('active'); });
+});
+
+// ==================== RENDER PUBLIC SECTIONS ====================
+function renderFormations() {
+  const formations = DB.get('formations', []);
+  const grid = document.getElementById('formationsGrid');
+  if (!grid) return;
+  grid.innerHTML = formations.map(f => `
+    <div class="formation-card card-hover shadow-lg">
+      <div class="formation-img bg-gradient-to-br ${f.color}">
+        <i class="fas ${f.icon}"></i>
+        ${f.avantage ? `<div class="absolute top-4 right-4 bg-gold-500 text-navy-900 px-3 py-1 rounded-full text-xs font-bold"><i class="fas fa-gift mr-1"></i>${f.avantage}</div>` : ''}
+      </div>
+      <div class="p-6">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="bg-navy-50 text-navy-700 px-2 py-1 rounded text-xs font-bold"><i class="fas fa-clock mr-1"></i>${f.duree}</span>
+        </div>
+        <h3 class="font-display text-xl font-bold text-navy-900 mb-2">${f.nom}</h3>
+        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${f.description}</p>
+        <div class="flex items-baseline gap-2 mb-4">
+          <span class="text-2xl font-bold text-gold-600">${f.participation.toLocaleString()}</span>
+          <span class="text-sm text-gray-500">Gdes</span>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="showFormationDetail('${f.id}')" class="flex-1 py-2.5 rounded-lg border-2 border-navy-900 text-navy-900 font-semibold text-sm hover:bg-navy-900 hover:text-white transition">Voir</button>
+          <button onclick="startInscription('${f.id}')" class="flex-1 btn-primary py-2.5 rounded-lg text-sm">S'inscrire</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Update select
+  const sel = document.getElementById('f_formation');
+  if (sel) {
+    const currentVal = sel.value;
+    sel.innerHTML = '<option value="">-- Choisir --</option>' + formations.map(f => `<option value="${f.id}">${f.nom}</option>`).join('');
+    if (currentVal) sel.value = currentVal;
+  }
+}
+
+function renderTeachers() {
+  const teachers = DB.get('teachers', []);
+  const grid = document.getElementById('professeursGrid');
+  if (!grid) return;
+  grid.innerHTML = teachers.map(t => `
+    <div class="bg-white rounded-2xl overflow-hidden shadow-md card-hover">
+      <div class="h-40 bg-gradient-to-br ${t.color} flex items-center justify-center">
+        <i class="fas ${t.icon} text-white text-6xl opacity-80"></i>
+      </div>
+      <div class="p-6">
+        <h3 class="font-display text-lg font-bold text-navy-900">${t.nom}</h3>
+        <div class="text-gold-600 font-semibold text-sm mb-2">${t.specialty}</div>
+        <p class="text-gray-600 text-sm mb-3">${t.bio}</p>
+        <div class="text-xs text-gray-500"><i class="fas fa-award mr-1"></i>${t.experience} d'expérience</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSchedule() {
+  const schedule = DB.get('schedule', []);
+  const body = document.getElementById('horairesBody');
+  if (!body) return;
+  body.innerHTML = schedule.map(s => `
+    <tr>
+      <td class="font-semibold text-navy-900">${s.formation}</td>
+      <td>${s.jour}</td>
+      <td class="text-gold-600 font-semibold">${s.heure}</td>
+      <td>${s.duree}</td>
+      <td>${s.formateur}</td>
+      <td>${s.salle}</td>
+    </tr>
+  `).join('');
+}
+
+function renderSeminars() {
+  const seminars = DB.get('seminars', []);
+  const grid = document.getElementById('seminairesGrid');
+  if (!grid) return;
+  if (seminars.length === 0) {
+    grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">Aucun séminaire programmé pour le moment.</div>';
+    return;
+  }
+  grid.innerHTML = seminars.map(s => `
+    <div class="bg-white rounded-2xl p-6 shadow-md card-hover border border-gray-100">
+      <div class="flex items-start justify-between mb-4">
+        <div class="w-14 h-14 gradient-navy rounded-xl flex items-center justify-center"><i class="fas fa-calendar-day text-gold-400 text-xl"></i></div>
+        <span class="badge ${s.price === 0 ? 'bg-green-100 text-green-700' : 'bg-gold-100 text-gold-700'}">${s.price === 0 ? 'GRATUIT' : s.price+' Gdes'}</span>
+      </div>
+      <h3 class="font-display text-xl font-bold text-navy-900 mb-2">${s.title}</h3>
+      <p class="text-gray-600 text-sm mb-4">${s.description}</p>
+      <div class="space-y-2 text-sm mb-4">
+        <div class="flex items-center gap-2 text-gray-700"><i class="fas fa-calendar text-gold-500 w-4"></i>${new Date(s.date).toLocaleDateString('fr-FR')}</div>
+        <div class="flex items-center gap-2 text-gray-700"><i class="fas fa-clock text-gold-500 w-4"></i>${s.time}</div>
+        <div class="flex items-center gap-2 text-gray-700"><i class="fas fa-location-dot text-gold-500 w-4"></i>${s.location}</div>
+        <div class="flex items-center gap-2 text-gray-700"><i class="fas fa-users text-gold-500 w-4"></i>${s.places} places</div>
+      </div>
+      <button onclick="showPage('inscription')" class="w-full btn-primary py-2.5 rounded-lg text-sm">S'inscrire</button>
+    </div>
+  `).join('');
+}
+
+function showFormationDetail(id) {
+  const f = DB.get('formations', []).find(x => x.id === id);
+  if (!f) return;
+  document.getElementById('formationModalContent').innerHTML = `
+    <div class="formation-img bg-gradient-to-br ${f.color} h-48 relative">
+      <i class="fas ${f.icon} text-7xl"></i>
+      <button onclick="closeModal('formationModal')" class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-navy-900 hover:bg-white"><i class="fas fa-xmark"></i></button>
+      ${f.avantage ? `<div class="absolute bottom-4 left-4 bg-gold-500 text-navy-900 px-4 py-2 rounded-full text-sm font-bold"><i class="fas fa-gift mr-1"></i>${f.avantage}</div>` : ''}
+    </div>
+    <div class="p-8">
+      <h2 class="font-display text-3xl font-bold text-navy-900 mb-3">${f.nom}</h2>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="bg-navy-50 text-navy-700 px-3 py-1 rounded-full text-sm font-semibold"><i class="fas fa-clock mr-1"></i>${f.duree}</span>
+        <span class="bg-gold-50 text-gold-700 px-3 py-1 rounded-full text-sm font-semibold"><i class="fas fa-tag mr-1"></i>Inscription : ${f.inscription.toLocaleString()} Gdes</span>
+      </div>
+      <p class="text-gray-700 mb-6">${f.description}</p>
+      <h4 class="font-bold text-navy-900 mb-3"><i class="fas fa-list-check text-gold-500 mr-2"></i>Contenu de la formation</h4>
+      <ul class="space-y-2 mb-6">
+        ${f.contenu.map(c => `<li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>${c}</span></li>`).join('')}
+      </ul>
+      <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+        <div class="grid grid-cols-2 gap-4">
+          <div><div class="text-sm text-gray-500">Frais d'inscription</div><div class="text-2xl font-bold text-navy-900">${f.inscription.toLocaleString()} Gdes</div></div>
+          <div><div class="text-sm text-gray-500">Frais de participation</div><div class="text-2xl font-bold text-gold-600">${f.participation.toLocaleString()} Gdes</div></div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-gray-200 flex justify-between items-center">
+          <span class="font-bold text-navy-900">Total</span>
+          <span class="text-3xl font-bold text-navy-900">${(f.inscription + f.participation).toLocaleString()} Gdes</span>
+        </div>
+      </div>
+      <button onclick="closeModal('formationModal');startInscription('${f.id}')" class="w-full btn-primary py-4 rounded-xl text-lg"><i class="fas fa-pen-to-square mr-2"></i>S'inscrire à cette formation</button>
+    </div>
+  `;
+  openModal('formationModal');
+}
+
+function startInscription(formationId) {
+  showPage('inscription');
+  setTimeout(() => {
+    document.getElementById('f_formation').value = formationId;
+    updateFrais();
+  }, 100);
+}
+
+function updateFrais() {
+  const fid = document.getElementById('f_formation').value;
+  const type = document.getElementById('f_type').value;
+  const f = DB.get('formations', []).find(x => x.id === fid);
+  const resume = document.getElementById('resumeFrais');
+  if (!f) { resume.classList.add('hidden'); return; }
+  resume.classList.remove('hidden');
+  let inscription = f.inscription;
+  let participation = f.hasOption && type === 'cours' ? f.cours : f.participation;
+  document.getElementById('r_inscription').textContent = inscription.toLocaleString() + ' Gdes';
+  document.getElementById('r_participation').textContent = participation.toLocaleString() + ' Gdes';
+  document.getElementById('r_total').textContent = (inscription + participation).toLocaleString() + ' Gdes';
+}
+
+// ==================== INSCRIPTION ====================
+function submitInscription(e) {
+  e.preventDefault();
+  const formations = DB.get('formations', []);
+  const fid = document.getElementById('f_formation').value;
+  const type = document.getElementById('f_type').value;
+  const f = formations.find(x => x.id === fid);
+  if (!f) return alert('Formation invalide');
+
+  let inscription = f.inscription;
+  let participation = f.hasOption && type === 'cours' ? f.cours : f.participation;
+  const total = inscription + participation;
+  const montant = parseInt(document.getElementById('f_montant').value) || 0;
+  const solde = total - montant;
+
+  let counter = DB.get('counter', 0) + 1;
+  DB.set('counter', counter);
+  const numInscription = 'INS-2026-' + String(counter).padStart(4, '0');
+
+  // Generate student code
+  const studentCode = 'NOVA-2026-' + String(counter).padStart(4, '0');
+
+  const student = {
+    id: 'st_' + Date.now(),
+    code: studentCode,
+    numInscription,
+    nom: document.getElementById('f_nom').value,
+    dob: document.getElementById('f_dob').value,
+    sexe: document.getElementById('f_sexe').value,
+    tel: document.getElementById('f_tel').value,
+    whatsapp: document.getElementById('f_whatsapp').value,
+    email: document.getElementById('f_email').value,
+    adresse: document.getElementById('f_adresse').value,
+    formationId: fid,
+    formation: f.nom,
+    type,
+    date: document.getElementById('f_date').value,
+    moyen: document.getElementById('f_moyen').value,
+    montant,
+    reference: document.getElementById('f_reference').value,
+    commentaire: document.getElementById('f_comment').value,
+    inscription,
+    participation,
+    total,
+    paye: montant,
+    solde,
+    statut: montant >= total ? 'complete' : (montant > 0 ? 'partial' : 'pending'),
+    codeActive: true,
+    createdAt: new Date().toISOString()
+  };
+
+  const students = DB.get('students', []);
+  students.push(student);
+  DB.set('students', students);
+
+  // Record payment if any
+  if (montant > 0) {
+    const payments = DB.get('payments', []);
+    let rc = DB.get('receiptCounter', 0) + 1;
+    DB.set('receiptCounter', rc);
+    payments.push({
+      id: 'p_' + Date.now(),
+      receiptNum: 'REC-2026-' + String(rc).padStart(4, '0'),
+      studentId: student.id,
+      studentName: student.nom,
+      formation: f.nom,
+      moyen: student.moyen,
+      montant,
+      date: student.date,
+      reference: student.reference,
+      commentaire: 'Paiement initial',
+      admin: 'Système',
+      createdAt: new Date().toISOString()
+    });
+    DB.set('payments', payments);
+  }
+
+  showInscriptionSuccess(student);
+  document.getElementById('inscriptionForm').reset();
+  document.getElementById('resumeFrais').classList.add('hidden');
+}
+
+function showInscriptionSuccess(s) {
+  document.getElementById('successContent').innerHTML = `
+    <div class="text-center mb-6">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-check text-green-600 text-4xl"></i></div>
+      <h3 class="font-display text-3xl font-bold text-navy-900 mb-2">Inscription réussie !</h3>
+      <p class="text-gray-600">Votre inscription a été enregistrée avec succès.</p>
+    </div>
+    <div class="bg-gradient-to-br from-navy-900 to-navy-700 rounded-2xl p-6 text-white mb-6">
+      <div class="text-center mb-4">
+        <div class="text-gold-400 text-xs tracking-widest">NOVA INSTITUTE</div>
+        <div class="font-display text-xl font-bold">FICHE D'INSCRIPTION</div>
+      </div>
+      <div class="bg-white/10 rounded-xl p-4 mb-3">
+        <div class="text-xs text-gray-300">Numéro d'inscription</div>
+        <div class="text-gold-400 font-bold text-lg">${s.numInscription}</div>
+      </div>
+      <div class="bg-white/10 rounded-xl p-4 mb-3">
+        <div class="text-xs text-gray-300">Code étudiant</div>
+        <div class="text-gold-400 font-bold text-lg">${s.code}</div>
+        <div class="text-xs text-gray-300 mt-1">Conservez ce code pour accéder à votre espace</div>
+      </div>
+      <div class="grid grid-cols-2 gap-3 text-sm">
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Nom</div><div class="font-semibold">${s.nom}</div></div>
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Téléphone</div><div class="font-semibold">${s.tel}</div></div>
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Formation</div><div class="font-semibold">${s.formation}</div></div>
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Date</div><div class="font-semibold">${new Date(s.date).toLocaleDateString('fr-FR')}</div></div>
+      </div>
+      <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Inscription</div><div class="font-bold text-gold-400">${s.inscription.toLocaleString()}</div></div>
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Participation</div><div class="font-bold text-gold-400">${s.participation.toLocaleString()}</div></div>
+        <div class="bg-white/10 rounded-xl p-3"><div class="text-xs text-gray-300">Total</div><div class="font-bold text-gold-400">${s.total.toLocaleString()}</div></div>
+      </div>
+      <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+        <div class="bg-green-500/20 rounded-xl p-3"><div class="text-xs text-gray-300">Payé</div><div class="font-bold text-green-400">${s.paye.toLocaleString()}</div></div>
+        <div class="bg-red-500/20 rounded-xl p-3"><div class="text-xs text-gray-300">Solde</div><div class="font-bold text-red-300">${s.solde.toLocaleString()}</div></div>
+        <div class="bg-gold-500/20 rounded-xl p-3"><div class="text-xs text-gray-300">Statut</div><div class="font-bold text-gold-400">${getStatutLabel(s.statut)}</div></div>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button onclick="downloadFiche('${s.id}')" class="flex-1 btn-primary py-3 rounded-xl"><i class="fas fa-download mr-2"></i>Télécharger ma fiche PDF</button>
+      <button onclick="closeModal('successModal');openModal('studentLoginModal')" class="flex-1 btn-outline py-3 rounded-xl"><i class="fas fa-user-graduate mr-2"></i>Accéder à mon espace</button>
+    </div>
+    <button onclick="closeModal('successModal')" class="w-full mt-3 py-3 rounded-xl text-gray-500 hover:bg-gray-100">Fermer</button>
+  `;
+  openModal('successModal');
+}
+
+function getStatutLabel(s) {
+  const map = { pending:'En attente', confirmed:'Confirmée', partial:'Partiel', complete:'Complet', cancelled:'Annulée' };
+  return map[s] || s;
+}
+
+function getStatutBadge(s) {
+  const map = { pending:'badge-pending', confirmed:'badge-confirmed', partial:'badge-partial', complete:'badge-complete', cancelled:'badge-cancelled' };
+  return `<span class="badge ${map[s] || 'badge-pending'}">${getStatutLabel(s)}</span>`;
+}
+
+// ==================== PDF GENERATION ====================
+function downloadFiche(studentId) {
+  const s = DB.get('students', []).find(x => x.id === studentId);
+  if (!s) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Header
+  doc.setFillColor(10, 31, 68);
+  doc.rect(0, 0, 210, 40, 'F');
+  doc.setTextColor(212, 175, 55);
+  doc.setFontSize(24);
+  doc.setFont('helvetica', 'bold');
+  doc.text('NOVA INSTITUTE', 105, 20, { align: 'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Formation Professionnelle', 105, 28, { align: 'center' });
+
+  // Title
+  doc.setTextColor(10, 31, 68);
+  doc.setFontSize(18);
+  doc.text('FICHE D\'INSCRIPTION', 105, 55, { align: 'center' });
+
+  // Gold line
+  doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(1);
+  doc.line(20, 62, 190, 62);
+
+  // Info
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  let y = 75;
+  const addLine = (label, value) => {
+    doc.setFont('helvetica', 'bold');
+    doc.text(label + ' :', 20, y);
+    doc.setFont('helvetica', 'normal');
+    doc.text(String(value), 80, y);
+    y += 8;
+  };
+
+  addLine('Numéro d\'inscription', s.numInscription);
+  addLine('Code étudiant', s.code);
+  addLine('Nom complet', s.nom);
+  addLine('Téléphone', s.tel);
+  addLine('Email', s.email || '-');
+  addLine('Formation', s.formation);
+  addLine('Date d\'inscription', new Date(s.date).toLocaleDateString('fr-FR'));
+  addLine('Moyen de paiement', s.moyen);
+  addLine('Référence', s.reference);
+
+  y += 5;
+  doc.setDrawColor(212, 175, 55);
+  doc.line(20, y, 190, y);
+  y += 10;
+
+  // Financial
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(10, 31, 68);
+  doc.text('RÉCAPITULATIF FINANCIER', 20, y);
+  y += 10;
+
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Frais d\'inscription :', 20, y);
+  doc.text(s.inscription.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  y += 8;
+  doc.text('Frais de participation :', 20, y);
+  doc.text(s.participation.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  y += 8;
+  doc.setDrawColor(200, 200, 200);
+  doc.line(20, y-3, 190, y-3);
+  doc.setFont('helvetica', 'bold');
+  doc.text('TOTAL :', 20, y);
+  doc.text(s.total.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  y += 10;
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(16, 185, 129);
+  doc.text('Montant payé :', 20, y);
+  doc.text(s.paye.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  y += 8;
+  doc.setTextColor(239, 68, 68);
+  doc.text('Solde restant :', 20, y);
+  doc.text(s.solde.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  y += 10;
+
+  doc.setTextColor(10, 31, 68);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Statut : ' + getStatutLabel(s.statut), 20, y);
+
+  // Footer
+  doc.setFillColor(10, 31, 68);
+  doc.rect(0, 275, 210, 22, 'F');
+  doc.setTextColor(212, 175, 55);
+  doc.setFontSize(9);
+  doc.text('NOVA INSTITUTE - Cité Militaire / École Foi d\'Abraham', 105, 283, { align: 'center' });
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(8);
+  doc.text('Tél: 58046408 / 44699777 - WhatsApp: 33552907 - institutenova61@gmail.com', 105, 290, { align: 'center' });
+
+  doc.save('Fiche_' + s.numInscription + '.pdf');
+}
+
+function downloadRecu(paymentId) {
+  const p = DB.get('payments', []).find(x => x.id === paymentId);
+  if (!p) return;
+  const s = DB.get('students', []).find(x => x.id === p.studentId);
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  doc.setFillColor(10, 31, 68);
+  doc.rect(0, 0, 210, 40, 'F');
+  doc.setTextColor(212, 175, 55);
+  doc.setFontSize(24);
+  doc.setFont('helvetica', 'bold');
+  doc.text('NOVA INSTITUTE', 105, 20, { align: 'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Formation Professionnelle', 105, 28, { align: 'center' });
+
+  doc.setTextColor(10, 31, 68);
+  doc.setFontSize(20);
+  doc.text('REÇU DE PAIEMENT', 105, 55, { align: 'center' });
+
+  doc.setDrawColor(212, 175, 55);
+  doc.setLineWidth(1);
+  doc.line(20, 62, 190, 62);
+
+  doc.setFontSize(11);
+  doc.setTextColor(0, 0, 0);
+  let y = 75;
+  const addLine = (label, value) => {
+    doc.setFont('helvetica', 'bold');
+    doc.text(label + ' :', 20, y);
+    doc.setFont('helvetica', 'normal');
+    doc.text(String(value), 80, y);
+    y += 9;
+  };
+
+  addLine('Numéro du reçu', p.receiptNum);
+  addLine('Nom de l\'étudiant', p.studentName);
+  addLine('Formation', p.formation);
+  addLine('Date', new Date(p.date).toLocaleDateString('fr-FR'));
+  addLine('Moyen de paiement', p.moyen);
+  addLine('Référence transaction', p.reference);
+  addLine('Administrateur', p.admin);
+
+  y += 5;
+  doc.setDrawColor(212, 175, 55);
+  doc.line(20, y, 190, y);
+  y += 15;
+
+  // Amount box
+  doc.setFillColor(250, 250, 250);
+  doc.roundedRect(20, y, 170, 40, 3, 3, 'F');
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(10, 31, 68);
+  doc.text('MONTANT PAYÉ', 105, y + 15, { align: 'center' });
+  doc.setFontSize(24);
+  doc.setTextColor(212, 175, 55);
+  doc.text(p.montant.toLocaleString() + ' Gdes', 105, y + 32, { align: 'center' });
+  y += 50;
+
+  if (s) {
+    doc.setFontSize(11);
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Solde restant :', 20, y);
+    doc.setTextColor(239, 68, 68);
+    doc.text(s.solde.toLocaleString() + ' Gdes', 190, y, { align: 'right' });
+  }
+
+  y += 20;
+  doc.setDrawColor(212, 175, 55);
+  doc.line(20, y, 190, y);
+  y += 10;
+  doc.setFontSize(9);
+  doc.setTextColor(100, 100, 100);
+  doc.text('Merci pour votre confiance. Ce reçu est généré automatiquement.', 105, y, { align: 'center' });
+
+  doc.setFillColor(10, 31, 68);
+  doc.rect(0, 275, 210, 22, 'F');
+  doc.setTextColor(212, 175, 55);
+  doc.setFontSize(9);
+  doc.text('NOVA INSTITUTE - Cité Militaire / École Foi d\'Abraham', 105, 283, { align: 'center' });
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(8);
+  doc.text('Tél: 58046408 / 44699777 - WhatsApp: 33552907 - institutenova61@gmail.com', 105, 290, { align: 'center' });
+
+  doc.save('Recu_' + p.receiptNum + '.pdf');
+}
+
+// ==================== STUDENT LOGIN ====================
+function studentLogin(e) {
+  e.preventDefault();
+  const code = document.getElementById('sl_code').value.trim().toUpperCase();
+  const pass = document.getElementById('sl_pass').value.trim();
+  const student = DB.get('students', []).find(s => s.code === code && s.tel === pass);
+  if (!student) {
+    alert('Code étudiant ou mot de passe incorrect.');
+    return;
+  }
+  if (!student.codeActive) {
+    alert('Votre compte a été désactivé. Contactez l\'administration.');
+    return;
+  }
+  currentUser = student;
+  closeModal('studentLoginModal');
+  showPage('student');
+  document.getElementById('sl_code').value = '';
+  document.getElementById('sl_pass').value = '';
+}
+
+function renderStudentDashboard() {
+  if (!currentUser) return;
+  // Refresh data
+  const fresh = DB.get('students', []).find(s => s.id === currentUser.id);
+  if (fresh) currentUser = fresh;
+  const s = currentUser;
+  const payments = DB.get('payments', []).filter(p => p.studentId === s.id);
+  const schedule = DB.get('schedule', []).find(sc => sc.formation === s.formation);
+
+  document.getElementById('studentDashboard').innerHTML = `
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <div class="text-sm text-gray-500">Bienvenue,</div>
+          <h1 class="font-display text-3xl lg:text-4xl font-bold text-navy-900">${s.nom}</h1>
+        </div>
+        <button onclick="logoutStudent()" class="text-gray-500 hover:text-red-500"><i class="fas fa-right-from-bracket text-xl"></i></button>
+      </div>
+      <div class="bg-gradient-to-r from-navy-900 to-navy-700 rounded-2xl p-6 text-white">
+        <div class="text-gold-400 text-xs tracking-widest mb-1">CODE ÉTUDIANT</div>
+        <div class="font-display text-2xl font-bold">${s.code}</div>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card"><div class="text-xs text-gray-500 mb-1">Formation</div><div class="font-bold text-navy-900">${s.formation}</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500 mb-1">Statut</div><div>${getStatutBadge(s.statut)}</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500 mb-1">Total payé</div><div class="font-bold text-green-600 text-xl">${s.paye.toLocaleString()} Gdes</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500 mb-1">Solde restant</div><div class="font-bold text-red-600 text-xl">${s.solde.toLocaleString()} Gdes</div></div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 mb-6">
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <h3 class="font-bold text-navy-900 mb-4"><i class="fas fa-info-circle text-gold-500 mr-2"></i>Informations</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex justify-between"><span class="text-gray-500">Numéro inscription</span><span class="font-semibold">${s.numInscription}</span></div>
+          <div class="flex justify-between"><span class="text-gray-500">Date inscription</span><span class="font-semibold">${new Date(s.date).toLocaleDateString('fr-FR')}</span></div>
+          <div class="flex justify-between"><span class="text-gray-500">Total à payer</span><span class="font-semibold">${s.total.toLocaleString()} Gdes</span></div>
+          <div class="flex justify-between"><span class="text-gray-500">Téléphone</span><span class="font-semibold">${s.tel}</span></div>
+          <div class="flex justify-between"><span class="text-gray-500">Email</span><span class="font-semibold">${s.email || '-'}</span></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 shadow">
+        <h3 class="font-bold text-navy-900 mb-4"><i class="fas fa-clock text-gold-500 mr-2"></i>Horaires</h3>
+        ${schedule ? `
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between"><span class="text-gray-500">Jour</span><span class="font-semibold">${schedule.jour}</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Heure</span><span class="font-semibold text-gold-600">${schedule.heure}</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Durée</span><span class="font-semibold">${schedule.duree}</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Formateur</span><span class="font-semibold">${schedule.formateur}</span></div>
+            <div class="flex justify-between"><span class="text-gray-500">Salle</span><span class="font-semibold">${schedule.salle}</span></div>
+          </div>
+        ` : '<div class="text-gray-500 text-sm">Horaires à confirmer</div>'}
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 shadow mb-6">
+      <h3 class="font-bold text-navy-900 mb-4"><i class="fas fa-receipt text-gold-500 mr-2"></i>Historique des paiements</h3>
+      ${payments.length === 0 ? '<div class="text-gray-500 text-sm">Aucun paiement enregistré</div>' : `
+        <div class="overflow-x-auto"><table><thead><tr><th>Date</th><th>Reçu</th><th>Moyen</th><th>Montant</th><th>Action</th></tr></thead><tbody>
+          ${payments.map(p => `<tr><td>${new Date(p.date).toLocaleDateString('fr-FR')}</td><td class="font-semibold">${p.receiptNum}</td><td>${p.moyen}</td><td class="font-bold text-green-600">${p.montant.toLocaleString()} Gdes</td><td><button onclick="downloadRecu('${p.id}')" class="text-gold-600 hover:text-gold-700"><i class="fas fa-download"></i></button></td></tr>`).join('')}
+        </tbody></table></div>
+      `}
+    </div>
+
+    <div class="grid sm:grid-cols-3 gap-4">
+      <button onclick="downloadFiche('${s.id}')" class="btn-primary py-4 rounded-xl"><i class="fas fa-file-pdf mr-2"></i>Télécharger ma fiche</button>
+      ${payments.length > 0 ? `<button onclick="downloadRecu('${payments[payments.length-1].id}')" class="btn-outline py-4 rounded-xl"><i class="fas fa-receipt mr-2"></i>Dernier reçu</button>` : ''}
+      <a href="https://wa.me/50933552907?text=Bonjour NOVA INSTITUTE, je suis ${encodeURIComponent(s.nom)} (${s.code})" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl text-center transition"><i class="fab fa-whatsapp mr-2"></i>WhatsApp</a>
+    </div>
+  `;
+}
+
+function logoutStudent() {
+  currentUser = null;
+  showPage('home');
+}
+
+// ==================== ADMIN ====================
+function adminLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('al_user').value;
+  const p = document.getElementById('al_pass').value;
+  if (u === 'admin' && p === 'nova2026') {
+    isAdmin = true;
+    closeModal('adminLoginModal');
+    showPage('admin');
+    document.getElementById('al_user').value = '';
+    document.getElementById('al_pass').value = '';
+  } else {
+    alert('Identifiants incorrects.');
+  }
+}
+
+function logoutAdmin() {
+  isAdmin = false;
+  showPage('home');
+}
+
+function showAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('bg-gold-500/20', 'text-gold-400'));
+  const content = document.getElementById('adminContent');
+  const tabs = {
+    dashboard: renderAdminDashboard,
+    students: renderAdminStudents,
+    formations: renderAdminFormations,
+    teachers: renderAdminTeachers,
+    schedule: renderAdminSchedule,
+    payments: renderAdminPayments,
+    seminars: renderAdminSeminars,
+    stats: renderAdminStats
+  };
+  if (tabs[tab]) tabs[tab](content);
+}
+
+function renderAdminDashboard(el) {
+  const students = DB.get('students', []);
+  const payments = DB.get('payments', []);
+  const formations = DB.get('formations', []);
+  const teachers = DB.get('teachers', []);
+
+  const totalPaye = payments.reduce((s, p) => s + p.montant, 0);
+  const totalSolde = students.reduce((s, x) => s + x.solde, 0);
+  const thisMonth = students.filter(s => new Date(s.createdAt).getMonth() === new Date().getMonth()).length;
+
+  el.innerHTML = `
+    <h1 class="font-display text-3xl font-bold text-navy-900 mb-2">Tableau de bord</h1>
+    <p class="text-gray-500 mb-8">Vue d'ensemble de NOVA INSTITUTE</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card border-l-4 border-blue-500"><div class="flex items-center justify-between"><div><div class="text-xs text-gray-500">Étudiants</div><div class="text-3xl font-bold text-navy-900">${students.length}</div></div><i class="fas fa-user-graduate text-3xl text-blue-500 opacity-50"></i></div></div>
+      <div class="stat-card border-l-4 border-gold-500"><div class="flex items-center justify-between"><div><div class="text-xs text-gray-500">Nouvelles inscriptions</div><div class="text-3xl font-bold text-navy-900">${thisMonth}</div></div><i class="fas fa-pen-to-square text-3xl text-gold-500 opacity-50"></i></div></div>
+      <div class="stat-card border-l-4 border-green-500"><div class="flex items-center justify-between"><div><div class="text-xs text-gray-500">Paiements reçus</div><div class="text-2xl font-bold text-green-600">${totalPaye.toLocaleString()} G</div></div><i class="fas fa-money-bill-wave text-3xl text-green-500 opacity-50"></i></div></div>
+      <div class="stat-card border-l-4 border-red-500"><div class="flex items-center justify-between"><div><div class="text-xs text-gray-500">Soldes restants</div><div class="text-2xl font-bold text-red-600">${totalSolde.toLocaleString()} G</div></div><i class="fas fa-hourglass-half text-3xl text-red-500 opacity-50"></i></div></div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 mb-6">
+      <div class="stat-card">
+        <h3 class="font-bold text-navy-900 mb-4"><i class="fas fa-chart-pie text-gold-500 mr-2"></i>Répartition par formation</h3>
+        <canvas id="chartFormations" height="200"></canvas>
+      </div>
+      <div class="stat-card">
+        <h3 class="font-bold text-navy-900 mb-4"><i class="fas fa-chart-line text-gold-500 mr-2"></i>Paiements récents</h3>
+        <canvas id="chartPayments" height="200"></canvas>
+      </div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="stat-card">
+        <h3 class="font-bold text-navy-900 mb-4">Dernières inscriptions</h3>
+        <div class="space-y-2">
+          ${students.slice(-5).reverse().map(s => `
+            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div><div class="font-semibold text-sm">${s.nom}</div><div class="text-xs text-gray-500">${s.formation}</div></div>
+              ${getStatutBadge(s.statut)}
+            </div>
+          `).join('') || '<div class="text-gray-500 text-sm">Aucune inscription</div>'}
+        </div>
+      </div>
+      <div class="stat-card">
+        <h3 class="font-bold text-navy-900 mb-4">Informations</h3>
+        <div class="space-y-3 text-sm">
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg"><span>Formations</span><span class="font-bold">${formations.length}</span></div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg"><span>Professeurs</span><span class="font-bold">${teachers.length}</span></div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg"><span>Paiements enregistrés</span><span class="font-bold">${payments.length}</span></div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    // Chart formations
+    const counts = {};
+    students.forEach(s => counts[s.formation] = (counts[s.formation] || 0) + 1);
+    const ctx1 = document.getElementById('chartFormations');
+    if (ctx1) new Chart(ctx1, {
+      type: 'doughnut',
+      data: { labels: Object.keys(counts), datasets: [{ data: Object.values(counts), backgroundColor: ['#D4AF37','#0A1F44','#10b981','#ef4444','#8b5cf6','#f59e0b','#06b6d4'] }] },
+      options: { plugins: { legend: { position: 'bottom' } } }
+    });
+
+    // Chart payments
+    const ctx2 = document.getElementById('chartPayments');
+    if (ctx2) {
+      const last7 = Array.from({length: 7}, (_, i) => {
+        const d = new Date(); d.setDate(d.getDate() - (6-i));
+        return d.toISOString().split('T')[0];
+      });
+      const data = last7.map(day => payments.filter(p => p.date === day || p.createdAt?.startsWith(day)).reduce((s,p) => s + p.montant, 0));
+      new Chart(ctx2, {
+        type: 'line',
+        data: { labels: last7.map(d => new Date(d).toLocaleDateString('fr-FR', {day:'2-digit', month:'short'})), datasets: [{ label: 'Paiements (Gdes)', data, borderColor: '#D4AF37', backgroundColor: 'rgba(212,175,55,0.1)', fill: true, tension: 0.4 }] },
+        options: { plugins: { legend: { display: false } } }
+      });
+    }
+  }, 100);
+}
+
+function renderAdminStudents(el) {
+  const students = DB.get('students', []);
+  const formations = DB.get('formations', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Étudiants</h1><p class="text-gray-500">${students.length} étudiants inscrits</p></div>
+      <button onclick="studentForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Ajouter un étudiant</button>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 mb-4">
+      <div class="grid sm:grid-cols-3 gap-3">
+        <input type="text" id="searchStudent" placeholder="Rechercher..." oninput="filterStudents()">
+        <select id="filterFormation" onchange="filterStudents()"><option value="">Toutes formations</option>${formations.map(f => `<option value="${f.nom}">${f.nom}</option>`).join('')}</select>
+        <select id="filterStatut" onchange="filterStudents()"><option value="">Tous statuts</option><option value="pending">En attente</option><option value="partial">Partiel</option><option value="complete">Complet</option><option value="cancelled">Annulée</option></select>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <div class="overflow-x-auto">
+        <table id="studentsTable">
+          <thead><tr><th>Code</th><th>Nom</th><th>Formation</th><th>Total</th><th>Payé</th><th>Solde</th><th>Statut</th><th>Actions</th></tr></thead>
+          <tbody id="studentsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `;
+  filterStudents();
+}
+
+function filterStudents() {
+  const search = (document.getElementById('searchStudent')?.value || '').toLowerCase();
+  const formation = document.getElementById('filterFormation')?.value || '';
+  const statut = document.getElementById('filterStatut')?.value || '';
+  const students = DB.get('students', []);
+  const filtered = students.filter(s =>
+    (!search || s.nom.toLowerCase().includes(search) || s.code.toLowerCase().includes(search) || s.tel.includes(search)) &&
+    (!formation || s.formation === formation) &&
+    (!statut || s.statut === statut)
+  );
+  const body = document.getElementById('studentsBody');
+  if (!body) return;
+  body.innerHTML = filtered.map(s => `
+    <tr>
+      <td class="font-mono text-xs font-bold text-gold-600">${s.code}</td>
+      <td class="font-semibold">${s.nom}</td>
+      <td class="text-sm">${s.formation}</td>
+      <td>${s.total.toLocaleString()}</td>
+      <td class="text-green-600 font-semibold">${s.paye.toLocaleString()}</td>
+      <td class="text-red-600 font-semibold">${s.solde.toLocaleString()}</td>
+      <td>${getStatutBadge(s.statut)}</td>
+      <td>
+        <div class="flex gap-1">
+          <button onclick="studentForm('${s.id}')" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100" title="Modifier"><i class="fas fa-pen text-xs"></i></button>
+          <button onclick="toggleStudentCode('${s.id}')" class="w-8 h-8 rounded-lg bg-gold-50 text-gold-600 hover:bg-gold-100" title="${s.codeActive ? 'Désactiver' : 'Activer'}"><i class="fas fa-${s.codeActive ? 'ban' : 'check'} text-xs"></i></button>
+          <button onclick="downloadFiche('${s.id}')" class="w-8 h-8 rounded-lg bg-green-50 text-green-600 hover:bg-green-100" title="Fiche"><i class="fas fa-file-pdf text-xs"></i></button>
+          <button onclick="deleteStudent('${s.id}')" class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-100" title="Supprimer"><i class="fas fa-trash text-xs"></i></button>
+        </div>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="text-center py-8 text-gray-500">Aucun étudiant</td></tr>';
+}
+
+function studentForm(id) {
+  const students = DB.get('students', []);
+  const formations = DB.get('formations', []);
+  const s = id ? students.find(x => x.id === id) : null;
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">${s ? 'Modifier' : 'Ajouter'} un étudiant</h3>
+    <form onsubmit="saveStudent(event, '${id || ''}')" class="space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div><label>Nom complet *</label><input type="text" id="sf_nom" value="${s?.nom || ''}" required></div>
+        <div><label>Code étudiant</label><input type="text" id="sf_code" value="${s?.code || 'NOVA-2026-' + String(DB.get('counter',0)+1).padStart(4,'0')}" required></div>
+        <div><label>Téléphone *</label><input type="tel" id="sf_tel" value="${s?.tel || ''}" required></div>
+        <div><label>Email</label><input type="email" id="sf_email" value="${s?.email || ''}"></div>
+        <div><label>Formation *</label><select id="sf_formation" required>${formations.map(f => `<option value="${f.id}" ${s?.formationId===f.id?'selected':''}>${f.nom}</option>`).join('')}</select></div>
+        <div><label>Statut</label><select id="sf_statut"><option value="pending" ${s?.statut==='pending'?'selected':''}>En attente</option><option value="confirmed" ${s?.statut==='confirmed'?'selected':''}>Confirmée</option><option value="partial" ${s?.statut==='partial'?'selected':''}>Partiel</option><option value="complete" ${s?.statut==='complete'?'selected':''}>Complet</option><option value="cancelled" ${s?.statut==='cancelled'?'selected':''}>Annulée</option></select></div>
+        <div><label>Total à payer</label><input type="number" id="sf_total" value="${s?.total || 0}" required></div>
+        <div><label>Montant payé</label><input type="number" id="sf_paye" value="${s?.paye || 0}" required></div>
+      </div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function saveStudent(e, id) {
+  e.preventDefault();
+  const students = DB.get('students', []);
+  const f = DB.get('formations', []).find(x => x.id === document.getElementById('sf_formation').value);
+  const total = parseInt(document.getElementById('sf_total').value) || 0;
+  const paye = parseInt(document.getElementById('sf_paye').value) || 0;
+  const data = {
+    nom: document.getElementById('sf_nom').value,
+    code: document.getElementById('sf_code').value,
+    tel: document.getElementById('sf_tel').value,
+    email: document.getElementById('sf_email').value,
+    formationId: f.id,
+    formation: f.nom,
+    statut: document.getElementById('sf_statut').value,
+    total, paye,
+    solde: total - paye,
+  };
+  if (id) {
+    const idx = students.findIndex(x => x.id === id);
+    students[idx] = { ...students[idx], ...data };
+  } else {
+    let counter = DB.get('counter', 0) + 1;
+    DB.set('counter', counter);
+    students.push({
+      id: 'st_' + Date.now(),
+      numInscription: 'INS-2026-' + String(counter).padStart(4, '0'),
+      ...data,
+      date: new Date().toISOString().split('T')[0],
+      moyen: 'Autre', reference: '-', inscription: 0, participation: 0,
+      createdAt: new Date().toISOString(),
+      codeActive: true
+    });
+  }
+  DB.set('students', students);
+  closeModal('formModal');
+  showAdminTab('students');
+}
+
+function toggleStudentCode(id) {
+  const students = DB.get('students', []);
+  const s = students.find(x => x.id === id);
+  s.codeActive = !s.codeActive;
+  DB.set('students', students);
+  filterStudents();
+}
+
+function deleteStudent(id) {
+  if (!confirm('Supprimer cet étudiant ?')) return;
+  const students = DB.get('students', []).filter(x => x.id !== id);
+  DB.set('students', students);
+  filterStudents();
+}
+
+function renderAdminFormations(el) {
+  const formations = DB.get('formations', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Formations</h1><p class="text-gray-500">${formations.length} formations disponibles</p></div>
+      <button onclick="formationForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      ${formations.map(f => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow">
+          <div class="formation-img bg-gradient-to-br ${f.color} h-32"><i class="fas ${f.icon} text-5xl"></i></div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy-900 mb-2">${f.nom}</h3>
+            <div class="text-sm text-gray-600 mb-3">${f.duree} • ${f.participation.toLocaleString()} Gdes</div>
+            <div class="flex gap-2">
+              <button onclick="formationForm('${f.id}')" class="flex-1 py-2 rounded-lg bg-blue-50 text-blue-600 text-sm font-semibold hover:bg-blue-100">Modifier</button>
+              <button onclick="deleteFormation('${f.id}')" class="py-2 px-3 rounded-lg bg-red-50 text-red-600 hover:bg-red-100"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function formationForm(id) {
+  const formations = DB.get('formations', []);
+  const f = id ? formations.find(x => x.id === id) : null;
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">${f ? 'Modifier' : 'Ajouter'} une formation</h3>
+    <form onsubmit="saveFormation(event, '${id || ''}')" class="space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="sm:col-span-2"><label>Nom *</label><input type="text" id="ff_nom" value="${f?.nom || ''}" required></div>
+        <div><label>Durée *</label><input type="text" id="ff_duree" value="${f?.duree || ''}" required></div>
+        <div><label>Icône (FontAwesome)</label><input type="text" id="ff_icon" value="${f?.icon || 'fa-book'}" placeholder="fa-book"></div>
+        <div><label>Frais inscription</label><input type="number" id="ff_inscription" value="${f?.inscription || 1000}" required></div>
+        <div><label>Frais participation</label><input type="number" id="ff_participation" value="${f?.participation || 0}" required></div>
+        <div><label>Avantage</label><input type="text" id="ff_avantage" value="${f?.avantage || ''}"></div>
+        <div><label>Couleur (gradient)</label><input type="text" id="ff_color" value="${f?.color || 'from-blue-600 to-blue-800'}"></div>
+        <div class="sm:col-span-2"><label>Description</label><textarea id="ff_desc" rows="3">${f?.description || ''}</textarea></div>
+        <div class="sm:col-span-2"><label>Contenu (une ligne par élément)</label><textarea id="ff_contenu" rows="5">${f?.contenu?.join('\n') || ''}</textarea></div>
+      </div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function saveFormation(e, id) {
+  e.preventDefault();
+  const formations = DB.get('formations', []);
+  const data = {
+    nom: document.getElementById('ff_nom').value,
+    duree: document.getElementById('ff_duree').value,
+    icon: document.getElementById('ff_icon').value,
+    inscription: parseInt(document.getElementById('ff_inscription').value) || 0,
+    participation: parseInt(document.getElementById('ff_participation').value) || 0,
+    avantage: document.getElementById('ff_avantage').value,
+    color: document.getElementById('ff_color').value,
+    description: document.getElementById('ff_desc').value,
+    contenu: document.getElementById('ff_contenu').value.split('\n').filter(x => x.trim())
+  };
+  if (id) {
+    const idx = formations.findIndex(x => x.id === id);
+    formations[idx] = { ...formations[idx], ...data };
+  } else {
+    formations.push({ id: 'f_' + Date.now(), ...data, hasOption: false, cours: null });
+  }
+  DB.set('formations', formations);
+  closeModal('formModal');
+  showAdminTab('formations');
+  renderFormations();
+}
+
+function deleteFormation(id) {
+  if (!confirm('Supprimer cette formation ?')) return;
+  DB.set('formations', DB.get('formations', []).filter(x => x.id !== id));
+  showAdminTab('formations');
+  renderFormations();
+}
+
+function renderAdminTeachers(el) {
+  const teachers = DB.get('teachers', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Professeurs</h1><p class="text-gray-500">${teachers.length} professeurs</p></div>
+      <button onclick="teacherForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+      ${teachers.map(t => `
+        <div class="bg-white rounded-2xl overflow-hidden shadow">
+          <div class="h-32 bg-gradient-to-br ${t.color} flex items-center justify-center"><i class="fas ${t.icon} text-white text-5xl"></i></div>
+          <div class="p-5">
+            <h3 class="font-bold text-navy-900">${t.nom}</h3>
+            <div class="text-gold-600 text-sm font-semibold mb-2">${t.specialty}</div>
+            <div class="flex gap-2 mt-3">
+              <button onclick="teacherForm('${t.id}')" class="flex-1 py-2 rounded-lg bg-blue-50 text-blue-600 text-sm font-semibold">Modifier</button>
+              <button onclick="deleteTeacher('${t.id}')" class="py-2 px-3 rounded-lg bg-red-50 text-red-600"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function teacherForm(id) {
+  const teachers = DB.get('teachers', []);
+  const t = id ? teachers.find(x => x.id === id) : null;
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">${t ? 'Modifier' : 'Ajouter'} un professeur</h3>
+    <form onsubmit="saveTeacher(event, '${id || ''}')" class="space-y-4">
+      <div><label>Nom *</label><input type="text" id="tf_nom" value="${t?.nom || ''}" required></div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div><label>Spécialité *</label><input type="text" id="tf_spec" value="${t?.specialty || ''}" required></div>
+        <div><label>Expérience</label><input type="text" id="tf_exp" value="${t?.experience || ''}"></div>
+        <div><label>Icône</label><input type="text" id="tf_icon" value="${t?.icon || 'fa-user'}"></div>
+        <div><label>Couleur</label><input type="text" id="tf_color" value="${t?.color || 'from-blue-600 to-blue-800'}"></div>
+      </div>
+      <div><label>Biographie</label><textarea id="tf_bio" rows="3">${t?.bio || ''}</textarea></div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function saveTeacher(e, id) {
+  e.preventDefault();
+  const teachers = DB.get('teachers', []);
+  const data = {
+    nom: document.getElementById('tf_nom').value,
+    specialty: document.getElementById('tf_spec').value,
+    experience: document.getElementById('tf_exp').value,
+    icon: document.getElementById('tf_icon').value,
+    color: document.getElementById('tf_color').value,
+    bio: document.getElementById('tf_bio').value
+  };
+  if (id) {
+    const idx = teachers.findIndex(x => x.id === id);
+    teachers[idx] = { ...teachers[idx], ...data };
+  } else {
+    teachers.push({ id: 't_' + Date.now(), ...data });
+  }
+  DB.set('teachers', teachers);
+  closeModal('formModal');
+  showAdminTab('teachers');
+  renderTeachers();
+}
+
+function deleteTeacher(id) {
+  if (!confirm('Supprimer ce professeur ?')) return;
+  DB.set('teachers', DB.get('teachers', []).filter(x => x.id !== id));
+  showAdminTab('teachers');
+  renderTeachers();
+}
+
+function renderAdminSchedule(el) {
+  const schedule = DB.get('schedule', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Horaires</h1><p class="text-gray-500">${schedule.length} entrées</p></div>
+      <button onclick="scheduleForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+    </div>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <div class="overflow-x-auto">
+        <table><thead><tr><th>Formation</th><th>Jour</th><th>Heure</th><th>Durée</th><th>Formateur</th><th>Salle</th><th></th></tr></thead>
+        <tbody>${schedule.map((s, i) => `
+          <tr>
+            <td class="font-semibold">${s.formation}</td>
+            <td>${s.jour}</td>
+            <td class="text-gold-600 font-semibold">${s.heure}</td>
+            <td>${s.duree}</td>
+            <td>${s.formateur}</td>
+            <td>${s.salle}</td>
+            <td><div class="flex gap-1">
+              <button onclick="scheduleForm(${i})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600"><i class="fas fa-pen text-xs"></i></button>
+              <button onclick="deleteSchedule(${i})" class="w-8 h-8 rounded-lg bg-red-50 text-red-600"><i class="fas fa-trash text-xs"></i></button>
+            </div></td>
+          </tr>
+        `).join('')}</tbody></table>
+      </div>
+    </div>
+  `;
+}
+
+function scheduleForm(idx) {
+  const schedule = DB.get('schedule', []);
+  const s = idx !== undefined ? schedule[idx] : null;
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">${s ? 'Modifier' : 'Ajouter'} un horaire</h3>
+    <form onsubmit="saveSchedule(event, ${idx ?? 'null'})" class="space-y-4">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div><label>Formation *</label><input type="text" id="sch_f" value="${s?.formation || ''}" required></div>
+        <div><label>Jour *</label><input type="text" id="sch_j" value="${s?.jour || ''}" required></div>
+        <div><label>Heure *</label><input type="text" id="sch_h" value="${s?.heure || ''}" required></div>
+        <div><label>Durée</label><input type="text" id="sch_d" value="${s?.duree || ''}"></div>
+        <div><label>Formateur</label><input type="text" id="sch_fr" value="${s?.formateur || ''}"></div>
+        <div><label>Salle</label><input type="text" id="sch_s" value="${s?.salle || ''}"></div>
+      </div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function saveSchedule(e, idx) {
+  e.preventDefault();
+  const schedule = DB.get('schedule', []);
+  const data = {
+    formation: document.getElementById('sch_f').value,
+    jour: document.getElementById('sch_j').value,
+    heure: document.getElementById('sch_h').value,
+    duree: document.getElementById('sch_d').value,
+    formateur: document.getElementById('sch_fr').value,
+    salle: document.getElementById('sch_s').value
+  };
+  if (idx !== null && idx !== undefined) schedule[idx] = data;
+  else schedule.push(data);
+  DB.set('schedule', schedule);
+  closeModal('formModal');
+  showAdminTab('schedule');
+  renderSchedule();
+}
+
+function deleteSchedule(idx) {
+  if (!confirm('Supprimer cet horaire ?')) return;
+  const schedule = DB.get('schedule', []);
+  schedule.splice(idx, 1);
+  DB.set('schedule', schedule);
+  showAdminTab('schedule');
+  renderSchedule();
+}
+
+function renderAdminPayments(el) {
+  const payments = DB.get('payments', []);
+  const students = DB.get('students', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Paiements</h1><p class="text-gray-500">${payments.length} paiements enregistrés</p></div>
+      <button onclick="paymentForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Enregistrer paiement</button>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4 mb-4">
+      <div class="grid sm:grid-cols-3 gap-3">
+        <input type="text" id="searchPayment" placeholder="Rechercher..." oninput="filterPayments()">
+        <select id="filterMoyen" onchange="filterPayments()"><option value="">Tous moyens</option><option>NatCash</option><option>MonCash</option></select>
+        <select id="filterPeriode" onchange="filterPayments()"><option value="">Toute période</option><option value="today">Aujourd'hui</option><option value="week">Cette semaine</option><option value="month">Ce mois</option></select>
+      </div>
+    </div>
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+      <div class="overflow-x-auto">
+        <table><thead><tr><th>Date</th><th>Reçu</th><th>Étudiant</th><th>Formation</th><th>Moyen</th><th>Montant</th><th>Réf.</th><th>Actions</th></tr></thead>
+        <tbody id="paymentsBody"></tbody></table>
+      </div>
+    </div>
+  `;
+  filterPayments();
+}
+
+function filterPayments() {
+  const search = (document.getElementById('searchPayment')?.value || '').toLowerCase();
+  const moyen = document.getElementById('filterMoyen')?.value || '';
+  const periode = document.getElementById('filterPeriode')?.value || '';
+  const payments = DB.get('payments', []);
+  const today = new Date().toISOString().split('T')[0];
+  const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+  const monthStart = new Date(); monthStart.setDate(1);
+
+  const filtered = payments.filter(p => {
+    if (search && !p.studentName.toLowerCase().includes(search) && !p.receiptNum.toLowerCase().includes(search)) return false;
+    if (moyen && p.moyen !== moyen) return false;
+    if (periode === 'today' && p.date !== today) return false;
+    if (periode === 'week' && new Date(p.date) < weekAgo) return false;
+    if (periode === 'month' && new Date(p.date) < monthStart) return false;
+    return true;
+  });
+
+  const body = document.getElementById('paymentsBody');
+  if (!body) return;
+  body.innerHTML = filtered.map(p => `
+    <tr>
+      <td>${new Date(p.date).toLocaleDateString('fr-FR')}</td>
+      <td class="font-mono text-xs font-bold text-gold-600">${p.receiptNum}</td>
+      <td class="font-semibold">${p.studentName}</td>
+      <td class="text-sm">${p.formation}</td>
+      <td><span class="badge ${p.moyen === 'MonCash' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}">${p.moyen}</span></td>
+      <td class="font-bold text-green-600">${p.montant.toLocaleString()} G</td>
+      <td class="text-xs">${p.reference}</td>
+      <td><button onclick="downloadRecu('${p.id}')" class="w-8 h-8 rounded-lg bg-green-50 text-green-600"><i class="fas fa-file-pdf text-xs"></i></button></td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" class="text-center py-8 text-gray-500">Aucun paiement</td></tr>';
+}
+
+function paymentForm() {
+  const students = DB.get('students', []);
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">Enregistrer un paiement</h3>
+    <form onsubmit="savePayment(event)" class="space-y-4">
+      <div><label>Étudiant *</label><select id="pf_student" required onchange="updatePaymentInfo()"><option value="">-- Choisir --</option>${students.map(s => `<option value="${s.id}">${s.nom} - ${s.code}</option>`).join('')}</select></div>
+      <div id="paymentInfo" class="hidden bg-gray-50 rounded-xl p-4 text-sm"></div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div><label>Montant (Gdes) *</label><input type="number" id="pf_montant" required></div>
+        <div><label>Moyen de paiement *</label><select id="pf_moyen" required><option>NatCash</option><option>MonCash</option></select></div>
+        <div><label>Date *</label><input type="date" id="pf_date" value="${new Date().toISOString().split('T')[0]}" required></div>
+        <div><label>Référence *</label><input type="text" id="pf_ref" required></div>
+      </div>
+      <div><label>Commentaire</label><input type="text" id="pf_comm"></div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer et générer reçu</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function updatePaymentInfo() {
+  const sid = document.getElementById('pf_student').value;
+  const s = DB.get('students', []).find(x => x.id === sid);
+  const info = document.getElementById('paymentInfo');
+  if (!s) { info.classList.add('hidden'); return; }
+  info.classList.remove('hidden');
+  info.innerHTML = `
+    <div class="grid grid-cols-3 gap-2 text-center">
+      <div><div class="text-xs text-gray-500">Total</div><div class="font-bold">${s.total.toLocaleString()} G</div></div>
+      <div><div class="text-xs text-gray-500">Payé</div><div class="font-bold text-green-600">${s.paye.toLocaleString()} G</div></div>
+      <div><div class="text-xs text-gray-500">Solde</div><div class="font-bold text-red-600">${s.solde.toLocaleString()} G</div></div>
+    </div>
+  `;
+}
+
+function savePayment(e) {
+  e.preventDefault();
+  const sid = document.getElementById('pf_student').value;
+  const students = DB.get('students', []);
+  const s = students.find(x => x.id === sid);
+  if (!s) return;
+  const montant = parseInt(document.getElementById('pf_montant').value) || 0;
+  let rc = DB.get('receiptCounter', 0) + 1;
+  DB.set('receiptCounter', rc);
+  const payment = {
+    id: 'p_' + Date.now(),
+    receiptNum: 'REC-2026-' + String(rc).padStart(4, '0'),
+    studentId: s.id,
+    studentName: s.nom,
+    formation: s.formation,
+    moyen: document.getElementById('pf_moyen').value,
+    montant,
+    date: document.getElementById('pf_date').value,
+    reference: document.getElementById('pf_ref').value,
+    commentaire: document.getElementById('pf_comm').value,
+    admin: 'Administrateur',
+    createdAt: new Date().toISOString()
+  };
+  const payments = DB.get('payments', []);
+  payments.push(payment);
+  DB.set('payments', payments);
+
+  // Update student
+  s.paye += montant;
+  s.solde = s.total - s.paye;
+  s.statut = s.solde <= 0 ? 'complete' : (s.paye > 0 ? 'partial' : 'pending');
+  DB.set('students', students);
+
+  closeModal('formModal');
+  alert('Paiement enregistré ! Reçu : ' + payment.receiptNum);
+  showAdminTab('payments');
+  downloadRecu(payment.id);
+}
+
+function renderAdminSeminars(el) {
+  const seminars = DB.get('seminars', []);
+  el.innerHTML = `
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div><h1 class="font-display text-3xl font-bold text-navy-900">Séminaires</h1><p class="text-gray-500">${seminars.length} séminaires</p></div>
+      <button onclick="seminarForm()" class="btn-primary px-6 py-3 rounded-xl"><i class="fas fa-plus mr-2"></i>Ajouter</button>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+      ${seminars.map((s, i) => `
+        <div class="bg-white rounded-2xl p-6 shadow">
+          <div class="flex justify-between mb-3">
+            <h3 class="font-bold text-navy-900">${s.title}</h3>
+            <span class="badge ${s.price === 0 ? 'bg-green-100 text-green-700' : 'bg-gold-100 text-gold-700'}">${s.price === 0 ? 'GRATUIT' : s.price+' G'}</span>
+          </div>
+          <div class="text-sm text-gray-600 mb-3">${s.description}</div>
+          <div class="text-xs text-gray-500 space-y-1 mb-3">
+            <div><i class="fas fa-calendar text-gold-500 mr-2"></i>${new Date(s.date).toLocaleDateString('fr-FR')} à ${s.time}</div>
+            <div><i class="fas fa-location-dot text-gold-500 mr-2"></i>${s.location}</div>
+            <div><i class="fas fa-users text-gold-500 mr-2"></i>${s.places} places</div>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="seminarForm(${i})" class="flex-1 py-2 rounded-lg bg-blue-50 text-blue-600 text-sm font-semibold">Modifier</button>
+            <button onclick="deleteSeminar(${i})" class="py-2 px-3 rounded-lg bg-red-50 text-red-600"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function seminarForm(idx) {
+  const seminars = DB.get('seminars', []);
+  const s = idx !== undefined ? seminars[idx] : null;
+  document.getElementById('formModalContent').innerHTML = `
+    <h3 class="font-display text-2xl font-bold text-navy-900 mb-6">${s ? 'Modifier' : 'Ajouter'} un séminaire</h3>
+    <form onsubmit="saveSeminar(event, ${idx ?? 'null'})" class="space-y-4">
+      <div><label>Titre *</label><input type="text" id="sem_t" value="${s?.title || ''}" required></div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div><label>Date *</label><input type="date" id="sem_d" value="${s?.date || ''}" required></div>
+        <div><label>Heure *</label><input type="text" id="sem_h" value="${s?.time || ''}" required></div>
+        <div><label>Lieu *</label><input type="text" id="sem_l" value="${s?.location || ''}" required></div>
+        <div><label>Prix (0 = gratuit)</label><input type="number" id="sem_p" value="${s?.price || 0}"></div>
+        <div><label>Places</label><input type="number" id="sem_pl" value="${s?.places || 20}"></div>
+      </div>
+      <div><label>Description</label><textarea id="sem_desc" rows="3">${s?.description || ''}</textarea></div>
+      <div class="flex gap-3 pt-4">
+        <button type="submit" class="flex-1 btn-primary py-3 rounded-xl">Enregistrer</button>
+        <button type="button" onclick="closeModal('formModal')" class="flex-1 py-3 rounded-xl border-2 border-gray-200">Annuler</button>
+      </div>
+    </form>
+  `;
+  openModal('formModal');
+}
+
+function saveSeminar(e, idx) {
+  e.preventDefault();
+  const seminars = DB.get('seminars', []);
+  const data = {
+    title: document.getElementById('sem_t').value,
+    date: document.getElementById('sem_d').value,
+    time: document.getElementById('sem_h').value,
+    location: document.getElementById('sem_l').value,
+    price: parseInt(document.getElementById('sem_p').value) || 0,
+    places: parseInt(document.getElementById('sem_pl').value) || 0,
+    description: document.getElementById('sem_desc').value
+  };
+  if (idx !== null && idx !== undefined) seminars[idx] = { ...seminars[idx], ...data, id: seminars[idx].id };
+  else seminars.push({ id: 's_' + Date.now(), ...data });
+  DB.set('seminars', seminars);
+  closeModal('formModal');
+  showAdminTab('seminars');
+  renderSeminars();
+}
+
+function deleteSeminar(idx) {
+  if (!confirm('Supprimer ce séminaire ?')) return;
+  const seminars = DB.get('seminars', []);
+  seminars.splice(idx, 1);
+  DB.set('seminars', seminars);
+  showAdminTab('seminars');
+  renderSeminars();
+}
+
+function renderAdminStats(el) {
+  const students = DB.get('students', []);
+  const payments = DB.get('payments', []);
+  const formations = DB.get('formations', []);
+  const totalPaye = payments.reduce((s, p) => s + p.montant, 0);
+  const totalSolde = students.reduce((s, x) => s + x.solde, 0);
+  const natcash = payments.filter(p => p.moyen === 'NatCash').reduce((s, p) => s + p.montant, 0);
+  const moncash = payments.filter(p => p.moyen === 'MonCash').reduce((s, p) => s + p.montant, 0);
+  const active = students.filter(s => s.statut !== 'cancelled').length;
+
+  el.innerHTML = `
+    <h1 class="font-display text-3xl font-bold text-navy-900 mb-2">Statistiques</h1>
+    <p class="text-gray-500 mb-8">Analyse complète de NOVA INSTITUTE</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div class="stat-card"><div class="text-xs text-gray-500">Total étudiants</div><div class="text-3xl font-bold text-navy-900">${students.length}</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">Étudiants actifs</div><div class="text-3xl font-bold text-green-600">${active}</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">Revenus totaux</div><div class="text-2xl font-bold text-gold-600">${totalPaye.toLocaleString()} G</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">Soldes restants</div><div class="text-2xl font-bold text-red-600">${totalSolde.toLocaleString()} G</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">NatCash</div><div class="text-2xl font-bold text-purple-600">${natcash.toLocaleString()} G</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">MonCash</div><div class="text-2xl font-bold text-blue-600">${moncash.toLocaleString()} G</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">Formations</div><div class="text-3xl font-bold text-navy-900">${formations.length}</div></div>
+      <div class="stat-card"><div class="text-xs text-gray-500">Paiements</div><div class="text-3xl font-bold text-navy-900">${payments.length}</div></div>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6 mb-6">
+      <div class="stat-card"><h3 class="font-bold text-navy-900 mb-4">Inscriptions par formation</h3><canvas id="chartStats1" height="250"></canvas></div>
+      <div class="stat-card"><h3 class="font-bold text-navy-900 mb-4">Répartition des statuts</h3><canvas id="chartStats2" height="250"></canvas></div>
+    </div>
+
+    <div class="stat-card">
+      <h3 class="font-bold text-navy-900 mb-4">Revenus par formation</h3>
+      <canvas id="chartStats3" height="100"></canvas>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const counts = {};
+    students.forEach(s => counts[s.formation] = (counts[s.formation] || 0) + 1);
+    new Chart(document.getElementById('chartStats1'), {
+      type: 'bar',
+      data: { labels: Object.keys(counts), datasets: [{ label: 'Étudiants', data: Object.values(counts), backgroundColor: '#D4AF37' }] },
+      options: { plugins: { legend: { display: false } } }
+    });
+
+    const statuts = { pending: 0, partial: 0, complete: 0, cancelled: 0 };
+    students.forEach(s => statuts[s.statut] = (statuts[s.statut] || 0) + 1);
+    new Chart(document.getElementById('chartStats2'), {
+      type: 'doughnut',
+      data: { labels: ['En attente','Partiel','Complet','Annulée'], datasets: [{ data: Object.values(statuts), backgroundColor: ['#f59e0b','#3b82f6','#10b981','#ef4444'] }] }
+    });
+
+    const rev = {};
+    payments.forEach(p => rev[p.formation] = (rev[p.formation] || 0) + p.montant);
+    new Chart(document.getElementById('chartStats3'), {
+      type: 'bar',
+      data: { labels: Object.keys(rev), datasets: [{ label: 'Revenus (Gdes)', data: Object.values(rev), backgroundColor: '#0A1F44' }] },
+      options: { indexAxis: 'y', plugins: { legend: { display: false } } }
+    });
+  }, 100);
+}
+
+// ==================== CONTACT ====================
+function sendContactMessage(e) {
+  e.preventDefault();
+  const name = document.getElementById('contactName').value;
+  const msg = document.getElementById('contactMessage').value;
+  const wa = `https://wa.me/50933552907?text=${encodeURIComponent('Bonjour NOVA INSTITUTE,\n\nJe suis ' + name + '.\n\n' + msg)}`;
+  window.open(wa, '_blank');
+  alert('Votre message a été préparé. Vous allez être redirigé vers WhatsApp.');
+  e.target.reset();
+}
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', () => {
+  renderFormations();
+  renderTeachers();
+  renderSchedule();
+  renderSeminars();
+  document.getElementById('f_date').valueAsDate = new Date();
+});
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
